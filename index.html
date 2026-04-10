@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chillflix — Stream Free in HD</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🎬</text></svg>" />
+  <!-- Preconnect to TMDB image domain for faster loading -->
+  <link rel="preconnect" href="https://image.tmdb.org" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- ═══════════════════════════════════════════════════
+     CHILLFLIX SEO META TAGS + PWA
+════════════════════════════════════════════════════ -->
+<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
+<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+<meta name="author" content="Chillflix" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="theme-color" content="#e50914" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Chillflix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chillflix.app/" />
+<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://chillflix.app/" />
+<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('[PWA] Service Worker registered'))
+        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+    });
+  }
+</script>
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX — style.css (PERFORMANCE OPTIMIZED)
+       Dark / Light theme via [data-theme] on <html>
+    ════════════════════════════════════════════════════ */
+
+    /* ── THEME TOKENS ──────────────────────────── */
+    :root,
+    [data-theme="dark"] {
+      --bg:       #0a0a0f;
+      --surface:  #0e0e18;
+      --card:     #141420;
+      --card-hov: #1c1c2e;
+      --border:   rgba(255,255,255,0.09);
+      --text:     #ffffff;
+      --muted:    #8a8aaa;
+      --red:      #e50914;
+      --red-hov:  #f40612;
+      --nav-bg:   rgba(10,10,15,0.88);
+      --stat-bg:  #0e0e18;
+      --cta-grad: linear-gradient(135deg,#120018 0%,#1a0008 100%);
+      --foot-bg:  #060609;
+      --logo-chill: #ffffff;
+      --hero-text: #ffffff;
+      --hero-text-muted: rgba(255,255,255,0.75);
+    }
+
+    [data-theme="light"] {
+      --bg:       #f5f5f8;
+      --surface:  #ebebf2;
+      --card:     #ffffff;
+      --card-hov: #f0f0f7;
+      --border:   rgba(0,0,0,0.10);
+      --text:     #0f0f1a;
+      --muted:    #6b6b85;
+      --red:      #e50914;
+      --red-hov:  #c00710;
+      --nav-bg:   rgba(245,245,248,0.88);
+      --stat-bg:  #ebebf2;
+      --cta-grad: linear-gradient(135deg,#ffe8e8 0%,#fff0f5 100%);
+      --foot-bg:  #e0e0e8;
+      --logo-chill: #0f0f1a;
+      --hero-text: #0f0f1a;
+      --hero-text-muted: rgba(15,15,26,0.7);
+    }
+
+    /* ── RESET & BASE ──────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* ── TYPOGRAPHY ────────────────────────────── */
+    .logo-text {
+      font-family: 'Bebas Neue', 'Impact', sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    /* ── SCROLLBAR HIDE ────────────────────────── */
+    .movie-strip::-webkit-scrollbar { display: none; }
+    .movie-strip { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ── NAVBAR ────────────────────────────────── */
+    #navbar {
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .nav-link:hover { color: var(--red); }
+
+    .theme-btn {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); }
+
+    .ham-line { background: var(--text); }
+
+    /* ── BUTTONS ───────────────────────────────── */
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--red-hov); transform: translateY(-1px); }
+
+    .btn-white {
+      background: #ffffff;
+      color: #000000;
+      text-decoration: none;
+    }
+    .btn-white:hover { background: #e5e5e5; }
+
+    .btn-ghost {
+      text-decoration: none;
+      color: var(--hero-text);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+    [data-theme="light"] .btn-ghost:hover { background: rgba(0,0,0,0.05); }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── HERO ──────────────────────────────────── */
+    .hero-badge { transition: all 0.6s; }
+    .hero-title-anim  { animation: fadeUp 0.6s ease both; }
+    .hero-genre-anim  { animation: fadeUp 0.6s 0.1s ease both; }
+    .hero-desc-anim   { animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-btns-anim   { animation: fadeUp 0.6s 0.3s ease both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero text theming */
+    .hero-title {
+      color: var(--hero-text);
+    }
+
+    .hero-description {
+      color: var(--hero-text-muted);
+    }
+
+    /* ── HERO BACKDROP (Desktop only) ─────────── */
+    #heroBackdrop {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center 20%;
+      background-repeat: no-repeat;
+      filter: blur(60px) brightness(0.4);
+      transform: scale(1.1);
+      transition: background-image 0.8s ease;
+      z-index: 0;
+    }
+
+    [data-theme="light"] #heroBackdrop {
+      filter: blur(60px) brightness(0.7);
+    }
+
+    #heroOverlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, var(--bg) 90%);
+      z-index: 1;
+    }
+
+    /* Hide backdrop on mobile, show on desktop */
+    @media (max-width: 767px) {
+      #heroBackdrop, #heroOverlay {
+        display: none;
+      }
+    }
+
+    /* ── HERO CARD ─────────────────────────────── */
+    .hero-card {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--card);
+    }
+
+    /* Show hero card on all devices */
+    .hero-card-wrapper {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 767px) {
+      .hero-card-wrapper {
+        justify-content: center;
+        margin-top: 2rem;
+      }
+    }
+
+    /* ── STATS BAR ─────────────────────────────── */
+    .stats-bar { background: var(--stat-bg); }
+    .stat-number { color: var(--red); }
+
+    /* ── FEATURE CARDS ─────────────────────────── */
+    .feature-card { background: var(--card); }
+    .feature-card:hover {
+      border-color: rgba(229,9,20,0.35) !important;
+      background: var(--card-hov);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(229,9,20,0.12);
+    }
+
+    .feat-icon {
+      background: rgba(229,9,20,0.10);
+      border: 1px solid rgba(229,9,20,0.20);
+    }
+    .feature-card:hover .feat-icon {
+      background: rgba(229,9,20,0.20);
+    }
+
+    /* ── MOVIE STRIP ───────────────────────────── */
+    .movie-strip { scroll-snap-type: x mandatory; }
+
+    .movie-thumb {
+      flex-shrink: 0;
+      width: 140px;
+      cursor: pointer;
+      scroll-snap-align: start;
+    }
+    @media (min-width: 640px) { .movie-thumb { width: 160px; } }
+
+    .movie-poster {
+      aspect-ratio: 2/3;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: var(--card);
+    }
+    .movie-thumb:hover .movie-poster {
+      transform: scale(1.05);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    }
+
+    .movie-poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .movie-poster-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+    }
+
+    .movie-play-btn {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .movie-thumb:hover .movie-play-btn { opacity: 1; }
+
+    .movie-play-btn span {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: #000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      padding-left: 3px;
+    }
+
+    .movie-rating {
+      position: absolute; top: 7px; right: 7px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      color: #fbbf24;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+
+    /* ── SKELETON LOADING ─────────────────────── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--card) 25%, var(--card-hov) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .skeleton-poster {
+      width: 100%;
+      aspect-ratio: 2/3;
+      border-radius: 12px;
+    }
+
+    /* ── PRICING ───────────────────────────────── */
+    .pricing-card { transition: transform 0.3s, box-shadow 0.3s; }
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+
+    .pricing-popular {
+      background: linear-gradient(160deg, rgba(229,9,20,0.12) 0%, rgba(10,10,15,0.8) 100%);
+    }
+    [data-theme="light"] .pricing-popular {
+      background: linear-gradient(160deg, rgba(229,9,20,0.07) 0%, #ffffff 100%);
+    }
+
+    .popular-badge {
+      background: var(--red);
+    }
+
+    /* ── CTA SECTION ───────────────────────────── */
+    .cta-section { background: var(--cta-grad); }
+
+    .cta-input {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+    [data-theme="light"] .cta-input {
+      background: #fff;
+    }
+    .cta-input::placeholder { color: var(--muted); }
+    .cta-input:focus { border-color: var(--red) !important; }
+
+    /* ── FOOTER ────────────────────────────────── */
+    .footer-bg { background: var(--foot-bg); }
+
+    .footer-link { color: var(--muted); text-decoration: none; }
+    .footer-link:hover { color: var(--red); }
+
+    .social-icon { color: var(--muted); text-decoration: none; }
+    .social-icon:hover { border-color: var(--red) !important; color: var(--red); }
+
+    /* ── MOBILE MENU OPEN STATE ─────────────────── */
+    body.menu-open .ham-line:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+    body.menu-open .ham-line:nth-child(2) { opacity: 0; }
+    body.menu-open .ham-line:nth-child(3) { transform: rotate(-45deg) translate(4px,-4px); }
+
+    /* ── CTA SUCCESS STATE ──────────────────────── */
+    #ctaSuccess { display: none; }
+    #ctaSuccess.visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    /* ── HERO GRID LAYOUT ──────────────────────── */
+    @media (max-width: 767px) {
+      #hero .grid {
+        grid-template-columns: 1fr !important;
+        text-align: center;
+      }
+      #hero .hero-btns-anim {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen transition-colors duration-500">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 border-b transition-all duration-500" style="border-color: var(--border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <a href="#" class="logo-text text-3xl select-none">
+        <span style="color: var(--logo-chill);">Chill</span><span style="color:var(--red)">flix</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="nav-link text-sm font-medium transition-colors">Movies</a>
+        <a href="#movies"   class="nav-link text-sm font-medium transition-colors">Series</a>
+        <a href="#pricing"  class="nav-link text-sm font-medium transition-colors">Pricing</a>
+        <a href="#cta"      class="nav-link text-sm font-medium transition-colors">New &amp; Hot</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Theme toggle -->
+        <button id="themeToggle" class="theme-btn w-10 h-10 rounded-full flex items-center justify-center border transition-all duration-300 text-lg" aria-label="Toggle theme">
+          ☀️
+        </button>
+
+        <a href="auth.html" class="hidden md:block btn-primary text-sm font-semibold px-5 py-2 rounded-lg transition-all">
+          Sign In
+        </a>
+
+        <!-- Hamburger -->
+        <button id="menuBtn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5" aria-label="Menu">
+          <span class="ham-line block w-6 h-0.5 rounded-full transition-all"></span>
+          <span class="ham-line block w-6 h-0.5 rounded-full transition-all"></span>
+          <span class="ham-line block w-6 h-0.5 rounded-full transition-all"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden overflow-hidden transition-all duration-300 max-h-0" style="max-height:0px;">
+      <div class="px-4 pb-4 pt-3 flex flex-col gap-3 border-t" style="border-color:var(--border)">
+        <a href="#features" class="nav-link text-sm font-medium py-1">Movies</a>
+        <a href="#movies"   class="nav-link text-sm font-medium py-1">Series</a>
+        <a href="#pricing"  class="nav-link text-sm font-medium py-1">Pricing</a>
+        <a href="#cta"      class="nav-link text-sm font-medium py-1">New &amp; Hot</a>
+        <a href="auth.html" class="btn-primary text-center text-sm font-semibold px-5 py-2.5 rounded-lg mt-1 transition-all">
+          Sign In Free
+        </a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════════════ -->
+  <section id="hero" class="relative min-h-screen flex items-center overflow-hidden pt-16">
+
+    <!-- Blurred poster backdrop (Desktop only) -->
+    <div id="heroBackdrop"></div>
+    <div id="heroOverlay"></div>
+
+    <!-- Hero content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 w-full">
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+        <!-- Left -->
+        <div>
+          <div id="heroBadge" class="hero-badge inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase border">
+            <span id="badgeDot" class="w-1.5 h-1.5 rounded-full animate-pulse"></span>
+            Now Streaming
+          </div>
+
+          <h1 id="heroTitle" class="hero-title logo-text text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-none mb-2 hero-title-anim">
+            Loading...
+          </h1>
+
+          <p id="heroGenre" class="text-sm font-medium mb-5 hero-genre-anim" style="color:var(--muted)">Fetching movie data...</p>
+
+          <p class="hero-description text-base sm:text-lg mb-8 max-w-md md:max-w-lg leading-relaxed hero-desc-anim">
+            Unlimited movies, series, and originals. Stream in crystal-clear HD — completely free. No credit card, no commitment.
+          </p>
+
+          <div class="flex flex-wrap gap-3 hero-btns-anim">
+            <a href="#movies" class="btn-white flex items-center gap-2 font-bold px-6 py-3 rounded-xl transition-all active:scale-95 text-sm">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><polygon points="2,1 13,7 2,13"/></svg>
+              Watch Free
+            </a>
+            <a href="#features" class="btn-ghost flex items-center gap-2 font-semibold px-6 py-3 rounded-xl transition-all active:scale-95 text-sm border" style="border-color:var(--border);">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              More Info
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: featured movie card (visible on all devices) -->
+        <div class="hero-card-wrapper">
+          <div class="relative w-48 sm:w-56 lg:w-64 xl:w-72">
+            <div id="heroCard" class="hero-card rounded-2xl overflow-hidden shadow-2xl aspect-[2/3] flex flex-col justify-end p-4 sm:p-5 relative transition-all duration-700">
+              <!-- poster art area -->
+              <img id="heroCardImg" src="" alt="" class="absolute inset-0 w-full h-full object-cover" decoding="async" fetchpriority="high">
+              <!-- gradient overlay -->
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)"></div>
+              <div class="relative z-10">
+                <div id="heroCardGenre" class="text-xs uppercase tracking-widest mb-1 font-semibold"></div>
+                <div id="heroCardTitle" class="logo-text text-xl sm:text-2xl leading-tight text-white"></div>
+                <div class="flex items-center gap-2 sm:gap-3 mt-3">
+                  <button class="flex-1 py-2 rounded-lg text-xs sm:text-sm font-bold text-black transition-all" style="background: var(--red);">
+                    ▶ Play
+                  </button>
+                  <button class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border flex items-center justify-center text-white hover:scale-110 transition-all" style="border-color:rgba(255,255,255,0.3)">＋</button>
+                </div>
+              </div>
+            </div>
+            <!-- Dynamic rating badge -->
+            <div id="heroRatingBadge" class="absolute -top-3 -right-3 bg-red-600 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-lg">★ 0.0</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       STATS BAR
+  ════════════════════════════════════════════════ -->
+  <section class="stats-bar py-1 border-y" style="border-color:var(--border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-wrap items-center justify-center sm:justify-between gap-4 sm:gap-0 sm:divide-x divide-white/10">
+        <div class="stat-item flex flex-col items-center sm:flex-1 py-5">
+          <span class="logo-text text-3xl sm:text-4xl stat-number">5K+</span>
+          <span class="text-xs font-medium mt-0.5" style="color:var(--muted)">Movies &amp; Series</span>
+        </div>
+        <div class="stat-item flex flex-col items-center sm:flex-1 py-5">
+          <span class="logo-text text-3xl sm:text-4xl stat-number">HD</span>
+          <span class="text-xs font-medium mt-0.5" style="color:var(--muted)">Crystal Quality</span>
+        </div>
+        <div class="stat-item flex flex-col items-center sm:flex-1 py-5">
+          <span class="logo-text text-3xl sm:text-4xl stat-number">Free</span>
+          <span class="text-xs font-medium mt-0.5" style="color:var(--muted)">Always Free</span>
+        </div>
+        <div class="stat-item flex flex-col items-center sm:flex-1 py-5">
+          <span class="logo-text text-3xl sm:text-4xl stat-number">24/7</span>
+          <span class="text-xs font-medium mt-0.5" style="color:var(--muted)">Always On</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FEATURES
+  ════════════════════════════════════════════════ -->
+  <section id="features" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-12">
+      <span class="text-xs font-bold uppercase tracking-widest" style="color:var(--red)">Everything You Need</span>
+      <h2 class="logo-text text-4xl sm:text-5xl mt-2" style="color:var(--text)">Built For Real Viewers</h2>
+      <p class="mt-3 text-base max-w-xl mx-auto" style="color:var(--muted)">Every feature designed to make your watching experience effortless, social, and spectacular.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+
+      <div class="feature-card p-6 rounded-2xl border transition-all duration-300 cursor-default" style="border-color:var(--border);">
+        <div class="feat-icon w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4 transition-all">▶</div>
+        <h3 class="font-bold text-base mb-2" style="color:var(--text)">Stream Instantly</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">No buffering, no waiting. Start watching any title in seconds with adaptive streaming.</p>
+      </div>
+
+      <div class="feature-card p-6 rounded-2xl border transition-all duration-300 cursor-default" style="border-color:var(--border);">
+        <div class="feat-icon w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4 transition-all">⬇</div>
+        <h3 class="font-bold text-base mb-2" style="color:var(--text)">Download &amp; Go</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">Save favorites offline. Watch on planes, trains, or anywhere without Wi-Fi.</p>
+      </div>
+
+      <div class="feature-card p-6 rounded-2xl border transition-all duration-300 cursor-default" style="border-color:var(--border);">
+        <div class="feat-icon w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4 transition-all">👥</div>
+        <h3 class="font-bold text-base mb-2" style="color:var(--text)">Watch Together</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">Sync playback with friends globally. Chat in real-time while watching the same frame.</p>
+      </div>
+
+      <div class="feature-card p-6 rounded-2xl border transition-all duration-300 cursor-default" style="border-color:var(--border);">
+        <div class="feat-icon w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4 transition-all">🎬</div>
+        <h3 class="font-bold text-base mb-2" style="color:var(--text)">True HD Quality</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">4K Ultra HD, HDR10+, and Dolby Vision. Every pixel perfect, every frame flawless.</p>
+      </div>
+
+      <div class="feature-card p-6 rounded-2xl border transition-all duration-300 cursor-default" style="border-color:var(--border);">
+        <div class="feat-icon w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4 transition-all">🌐</div>
+        <h3 class="font-bold text-base mb-2" style="color:var(--text)">Community</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">Rate, review, and discover what real viewers love. Join millions of film enthusiasts.</p>
+      </div>
+
+      <div class="feature-card p-6 rounded-2xl border transition-all duration-300 cursor-default" style="border-color:var(--border);">
+        <div class="feat-icon w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4 transition-all">🔒</div>
+        <h3 class="font-bold text-base mb-2" style="color:var(--text)">100% Secure</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted)">Bank-grade encryption protects your data. Multiple profiles, parental controls built-in.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       MOVIE PREVIEW STRIP
+  ════════════════════════════════════════════════ -->
+  <section id="movies" class="py-12 sm:py-16 border-y" style="border-color:var(--border); background:var(--surface);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="logo-text text-2xl sm:text-3xl" style="color:var(--text)">🔥 Trending Now</h2>
+        <a href="#" class="text-sm font-semibold transition-colors" style="color:var(--red)">See All →</a>
+      </div>
+
+      <!-- Scroll strip -->
+      <div id="movieStrip" class="flex gap-3 overflow-x-auto pb-3 movie-strip">
+        <!-- Dynamically filled by TMDB API -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PRICING
+  ════════════════════════════════════════════════ -->
+  <section id="pricing" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-12">
+      <span class="text-xs font-bold uppercase tracking-widest" style="color:var(--red)">Simple Pricing</span>
+      <h2 class="logo-text text-4xl sm:text-5xl mt-2" style="color:var(--text)">Choose Your Plan</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+      <!-- Free -->
+      <div class="pricing-card p-6 sm:p-8 rounded-2xl border flex flex-col" style="border-color:var(--border); background:var(--card);">
+        <div class="mb-6">
+          <h3 class="text-xl font-black mb-1" style="color:var(--text)">Free</h3>
+          <div class="logo-text text-5xl mb-1" style="color:var(--red)">$0</div>
+          <p class="text-sm" style="color:var(--muted)">Forever free, no card required</p>
+        </div>
+        <ul class="space-y-3 text-sm flex-1 mb-6" style="color:var(--muted)">
+          <li class="flex items-center gap-2"><span class="text-green-400 font-bold">✓</span> 5,000+ Movies &amp; Series</li>
+          <li class="flex items-center gap-2"><span class="text-green-400 font-bold">✓</span> 720p HD Streaming</li>
+          <li class="flex items-center gap-2"><span class="text-green-400 font-bold">✓</span> 1 Screen at a time</li>
+          <li class="flex items-center gap-2"><span class="text-green-400 font-bold">✓</span> Ad-supported</li>
+          <li class="flex items-center gap-2"><span class="text-green-400 font-bold">✓</span> Mobile &amp; Tablet</li>
+        </ul>
+        <a href="auth.html" class="btn-outline block text-center w-full py-3 rounded-xl font-bold text-sm transition-all active:scale-95">
+          Get Started Free
+        </a>
+      </div>
+
+      <!-- Premium -->
+      <div class="pricing-card pricing-popular p-6 sm:p-8 rounded-2xl border flex flex-col relative" style="border-color:rgba(220,38,38,0.5);">
+        <div class="popular-badge absolute -top-3.5 left-1/2 -translate-x-1/2 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg tracking-wider whitespace-nowrap">
+          ✦ MOST POPULAR
+        </div>
+        <div class="mb-6">
+          <h3 class="text-xl font-black mb-1 text-white">Premium</h3>
+          <div class="flex items-baseline gap-1 mb-1">
+            <span class="logo-text text-5xl text-white">$7</span>
+            <span class="text-sm" style="color:var(--muted)">/month</span>
+          </div>
+          <p class="text-sm" style="color:var(--muted)">First month free, cancel anytime</p>
+        </div>
+        <ul class="space-y-3 text-sm flex-1 mb-6">
+          <li class="flex items-center gap-2 text-white/80"><span style="color:var(--red)" class="font-bold">✓</span> Everything in Free</li>
+          <li class="flex items-center gap-2 text-white/80"><span style="color:var(--red)" class="font-bold">✓</span> 4K Ultra HD + HDR</li>
+          <li class="flex items-center gap-2 text-white/80"><span style="color:var(--red)" class="font-bold">✓</span> 4 Screens simultaneously</li>
+          <li class="flex items-center gap-2 text-white/80"><span style="color:var(--red)" class="font-bold">✓</span> No Ads, ever</li>
+          <li class="flex items-center gap-2 text-white/80"><span style="color:var(--red)" class="font-bold">✓</span> Downloads for offline</li>
+          <li class="flex items-center gap-2 text-white/80"><span style="color:var(--red)" class="font-bold">✓</span> Watch Together feature</li>
+          <li class="flex items-center gap-2 text-white/80"><span style="color:var(--red)" class="font-bold">✓</span> Early access to originals</li>
+        </ul>
+        <a href="auth.html" class="btn-primary block text-center w-full py-3 rounded-xl font-bold text-sm transition-all active:scale-95 shadow-lg">
+          Start Free Trial
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       EMAIL CTA
+  ════════════════════════════════════════════════ -->
+  <section id="cta" class="py-16 sm:py-24 border-t cta-section" style="border-color:var(--border);">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+      <div class="text-5xl mb-4">🎬</div>
+      <h2 class="logo-text text-4xl sm:text-5xl lg:text-6xl mb-3 text-white">Your Next Obsession Awaits</h2>
+      <p class="text-base mb-8 max-w-md mx-auto" style="color:var(--muted)">
+        Join 2 million+ viewers streaming for free. Enter your email and start watching in 30 seconds.
+      </p>
+
+      <!-- Form -->
+      <form id="ctaForm" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" novalidate>
+        <input id="ctaEmail" type="email" placeholder="Enter your email address..."
+          class="cta-input flex-1 px-4 py-3.5 rounded-xl border text-sm focus:outline-none transition-colors"
+          style="border-color:var(--border);"
+          required />
+        <button type="submit" class="btn-primary font-bold px-7 py-3.5 rounded-xl transition-all active:scale-95 text-sm whitespace-nowrap shadow-lg">
+          Get Started Free →
+        </button>
+      </form>
+
+      <!-- Success state -->
+      <div id="ctaSuccess" class="py-4 px-6 rounded-2xl mt-2"
+        style="background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.3); color:rgb(74,222,128);">
+        🎉 You're in! Check your inbox.
+      </div>
+
+      <p class="text-xs mt-4" style="color:var(--muted)">No credit card needed. No hidden fees. Cancel anytime.</p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer class="border-t footer-bg py-12" style="border-color:var(--border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+
+        <!-- Brand -->
+        <div class="col-span-2 md:col-span-1">
+          <span class="logo-text text-2xl">
+            <span style="color: var(--logo-chill);">Chill</span><span style="color:var(--red)">flix</span>
+          </span>
+          <p class="text-xs mt-3 max-w-xs leading-relaxed" style="color:var(--muted)">
+            Stream 5,000+ movies and series in HD for free. Your ultimate entertainment destination.
+          </p>
+          <div class="flex gap-3 mt-4">
+            <a href="#" class="social-icon w-8 h-8 rounded-lg border flex items-center justify-center text-sm transition-all" style="border-color:var(--border);" aria-label="X (Twitter)">𝕏</a>
+            <a href="#" class="social-icon w-8 h-8 rounded-lg border flex items-center justify-center text-sm transition-all" style="border-color:var(--border);" aria-label="Instagram">📸</a>
+            <a href="#" class="social-icon w-8 h-8 rounded-lg border flex items-center justify-center text-sm transition-all" style="border-color:var(--border);" aria-label="YouTube">▶</a>
+          </div>
+        </div>
+
+        <!-- Browse -->
+        <div>
+          <h4 class="font-bold text-sm mb-3" style="color:var(--text)">Browse</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="footer-link text-xs transition-colors">Movies</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">TV Series</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Originals</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">New Releases</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Top Rated</a></li>
+          </ul>
+        </div>
+
+        <!-- Account -->
+        <div>
+          <h4 class="font-bold text-sm mb-3" style="color:var(--text)">Account</h4>
+          <ul class="space-y-2">
+            <li><a href="auth.html" class="footer-link text-xs transition-colors">Sign Up Free</a></li>
+            <li><a href="auth.html" class="footer-link text-xs transition-colors">Sign In</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">My List</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Download App</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Premium Plan</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <h4 class="font-bold text-sm mb-3" style="color:var(--text)">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="footer-link text-xs transition-colors">About Us</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Careers</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Press</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Help Center</a></li>
+            <li><a href="#" class="footer-link text-xs transition-colors">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-t pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-color:var(--border);">
+        <p class="text-xs" style="color:var(--muted)">© 2025 Chillflix. All rights reserved.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="footer-link text-xs transition-colors">Terms</a>
+          <a href="#" class="footer-link text-xs transition-colors">Privacy</a>
+          <a href="#" class="footer-link text-xs transition-colors">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX — TMDB POWERED (PERFORMANCE OPTIMIZED)
+    ════════════════════════════════════════════════════ */
+
+    // ── CONFIG ──────────────────────────────────────────
+    const TMDB_API_KEY = 'c619fb205a80d8c6c653895b7eae6f36';
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/';
+    const POSTER_SIZE = 'w342';  // Smaller for faster loading
+    const BACKDROP_SIZE = 'w780'; // Smaller for faster loading
+    const CACHE_KEY = 'chillflix_tmdb_cache';
+    const CACHE_DURATION = 1000 * 60 * 30; // 30 minutes
+
+    // ── STATE ───────────────────────────────────────────
+    let currentSlideIndex = 0;
+    let slideInterval = null;
+    let isDark = true;
+    let trendingMovies = [];
+    let featuredMovies = [];
+
+    // ── DOM REFS ────────────────────────────────────────
+    const html = document.documentElement;
+    const heroBackdrop = document.getElementById('heroBackdrop');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroGenre = document.getElementById('heroGenre');
+    const heroBadge = document.getElementById('heroBadge');
+    const badgeDot = document.getElementById('badgeDot');
+    const heroCardImg = document.getElementById('heroCardImg');
+    const heroCardGenre = document.getElementById('heroCardGenre');
+    const heroCardTitle = document.getElementById('heroCardTitle');
+    const heroRatingBadge = document.getElementById('heroRatingBadge');
+    const movieStrip = document.getElementById('movieStrip');
+    const themeToggle = document.getElementById('themeToggle');
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const ctaForm = document.getElementById('ctaForm');
+    const ctaEmail = document.getElementById('ctaEmail');
+    const ctaSuccess = document.getElementById('ctaSuccess');
+
+    /* ═══════════════════════════════════════════════════
+       CACHE UTILITIES
+    ════════════════════════════════════════════════════ */
+
+    function getCachedData() {
+      try {
+        const cached = sessionStorage.getItem(CACHE_KEY);
+        if (!cached) return null;
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_DURATION) {
+          return data;
+        }
+      } catch (e) {
+        console.warn('Cache read failed:', e);
+      }
+      return null;
+    }
+
+    function setCachedData(data) {
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+          data,
+          timestamp: Date.now()
+        }));
+      } catch (e) {
+        console.warn('Cache write failed:', e);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       TMDB API FETCH (WITH CACHE)
+    ════════════════════════════════════════════════════ */
+
+    async function fetchFromTMDB(endpoint, params = {}) {
+      const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
+      url.searchParams.append('api_key', TMDB_API_KEY);
+      Object.entries(params).forEach(([key, value]) => {
+        url.searchParams.append(key, value);
+      });
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`TMDB API error: ${response.status}`);
+        }
+        return await response.json();
+      } catch (error) {
+        console.error('TMDB fetch failed:', error);
+        return null;
+      }
+    }
+
+    async function fetchTrendingMovies() {
+      // Check cache first
+      const cached = getCachedData();
+      if (cached) {
+        trendingMovies = cached.filter(m => m.poster_path && m.backdrop_path).slice(0, 12);
+        featuredMovies = trendingMovies.slice(0, 5);
+        return trendingMovies;
+      }
+
+      // Fetch fresh
+      const data = await fetchFromTMDB('/trending/movie/week', { language: 'en-US' });
+      if (data && data.results) {
+        const movies = data.results.filter(m => m.poster_path && m.backdrop_path);
+        setCachedData(movies);
+        trendingMovies = movies.slice(0, 12);
+        featuredMovies = trendingMovies.slice(0, 5);
+      }
+      return trendingMovies;
+    }
+
+    function getImageUrl(path, size = POSTER_SIZE) {
+      if (!path) return '';
+      return `${TMDB_IMAGE_BASE}${size}${path}`;
+    }
+
+    function getGenreNames(genreIds) {
+      const genreMap = {
+        28: 'Action', 12: 'Adventure', 16: 'Animation', 35: 'Comedy', 80: 'Crime',
+        99: 'Documentary', 18: 'Drama', 10751: 'Family', 14: 'Fantasy', 36: 'History',
+        27: 'Horror', 10402: 'Music', 9648: 'Mystery', 10749: 'Romance', 878: 'Sci-Fi',
+        10770: 'TV Movie', 53: 'Thriller', 10752: 'War', 37: 'Western'
+      };
+      if (!genreIds || genreIds.length === 0) return 'Movie';
+      const names = genreIds.slice(0, 2).map(id => genreMap[id] || 'Movie');
+      return names.join(' · ');
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RENDER SKELETON LOADERS
+    ════════════════════════════════════════════════════ */
+
+    function renderSkeletonStrip() {
+      if (!movieStrip) return;
+      movieStrip.innerHTML = '';
+      for (let i = 0; i < 5; i++) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'movie-thumb';
+        skeleton.innerHTML = `<div class="skeleton skeleton-poster"></div>`;
+        movieStrip.appendChild(skeleton);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RENDER MOVIE STRIP
+    ════════════════════════════════════════════════════ */
+
+    function renderMovieStrip(movies) {
+      if (!movieStrip) return;
+      movieStrip.innerHTML = '';
+      const displayMovies = movies.length > 0 ? movies.slice(0, 10) : [];
+
+      displayMovies.forEach(movie => {
+        const posterPath = movie.poster_path;
+        const title = movie.title || 'Untitled';
+        const year = movie.release_date ? movie.release_date.substring(0, 4) : 'TBA';
+        const rating = movie.vote_average ? movie.vote_average.toFixed(1) : '0.0';
+        const imageUrl = getImageUrl(posterPath);
+
+        const wrap = document.createElement('div');
+        wrap.className = 'movie-thumb';
+
+        wrap.innerHTML = `
+          <div class="movie-poster mb-2">
+            <img src="${imageUrl}" alt="${title}" decoding="async" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'300\\'%3E%3Crect width=\\'200\\' height=\\'300\\' fill=\\'%23141420\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%238a8aaa\\' font-size=\\'14\\'%3E🎬%3C/text%3E%3C/svg%3E'">
+            <div class="movie-poster-overlay"></div>
+            <div class="movie-play-btn"><span>▶</span></div>
+            <div class="movie-rating">★${rating}</div>
+          </div>
+          <p class="text-xs font-semibold leading-tight truncate" style="color:var(--text)">${title}</p>
+          <p class="text-xs" style="color:var(--muted)">${year}</p>
+        `;
+
+        movieStrip.appendChild(wrap);
+      });
+    }
+
+    /* ═══════════════════════════════════════════════════
+       HERO FEATURED MOVIE
+    ════════════════════════════════════════════════════ */
+
+    function applyFeaturedMovie(movie, animate = true) {
+      if (!movie) return;
+
+      const title = movie.title || 'Untitled';
+      const genreText = getGenreNames(movie.genre_ids);
+      const rating = movie.vote_average ? movie.vote_average.toFixed(1) : '0.0';
+      const posterPath = movie.poster_path;
+      const backdropPath = movie.backdrop_path;
+
+      // Update backdrop (desktop only via CSS media query)
+      if (backdropPath && window.innerWidth >= 768) {
+        const backdropUrl = getImageUrl(backdropPath, BACKDROP_SIZE);
+        heroBackdrop.style.backgroundImage = `url('${backdropUrl}')`;
+      }
+
+      // Update text
+      if (animate) {
+        heroTitle.style.animation = 'none';
+        heroTitle.offsetHeight;
+        heroTitle.style.animation = 'fadeUp 0.5s ease both';
+      }
+      heroTitle.textContent = title;
+      heroGenre.textContent = genreText;
+
+      const accentColor = '#e50914';
+      heroBadge.style.background = `${accentColor}18`;
+      heroBadge.style.borderColor = `${accentColor}40`;
+      heroBadge.style.color = accentColor;
+      badgeDot.style.background = accentColor;
+
+      // Update hero card
+      if (heroCardImg) {
+        heroCardImg.src = getImageUrl(posterPath);
+        heroCardImg.alt = title;
+      }
+      if (heroCardGenre) {
+        heroCardGenre.textContent = genreText;
+        heroCardGenre.style.color = accentColor;
+      }
+      if (heroCardTitle) {
+        heroCardTitle.textContent = title;
+      }
+      if (heroRatingBadge) {
+        heroRatingBadge.textContent = `★ ${rating}`;
+      }
+    }
+
+    function nextFeaturedMovie() {
+      if (featuredMovies.length === 0) return;
+      currentSlideIndex = (currentSlideIndex + 1) % featuredMovies.length;
+      applyFeaturedMovie(featuredMovies[currentSlideIndex], true);
+    }
+
+    function resetSlideInterval() {
+      if (slideInterval) clearInterval(slideInterval);
+      if (featuredMovies.length > 1) {
+        slideInterval = setInterval(nextFeaturedMovie, 5000);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       THEME MANAGEMENT (WITH LOCALSTORAGE)
+    ════════════════════════════════════════════════════ */
+
+    function applyTheme(dark) {
+      isDark = dark;
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeToggle.textContent = dark ? '☀️' : '🌙';
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light');
+    }
+
+    function loadSavedTheme() {
+      const saved = localStorage.getItem('chillflix-theme');
+      applyTheme(saved !== 'light');
+    }
+
+    themeToggle.addEventListener('click', () => applyTheme(!isDark));
+
+    /* ═══════════════════════════════════════════════════
+       MOBILE MENU
+    ════════════════════════════════════════════════════ */
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.style.maxHeight && mobileMenu.style.maxHeight !== '0px';
+      if (isOpen) {
+        mobileMenu.style.maxHeight = '0px';
+        document.body.classList.remove('menu-open');
+      } else {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+        document.body.classList.add('menu-open');
+      }
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.style.maxHeight = '0px';
+        document.body.classList.remove('menu-open');
+      });
+    });
+
+    /* ═══════════════════════════════════════════════════
+       CTA FORM
+    ════════════════════════════════════════════════════ */
+
+    ctaForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = ctaEmail.value.trim();
+      if (!email) return;
+      ctaForm.style.display = 'none';
+      ctaSuccess.classList.add('visible');
+    });
+
+    /* ═══════════════════════════════════════════════════
+       NAVBAR SCROLL SHADOW
+    ════════════════════════════════════════════════════ */
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const nav = document.getElementById('navbar');
+          nav.style.boxShadow = window.scrollY > 40 ? '0 4px 32px rgba(0,0,0,0.4)' : 'none';
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       INITIALIZATION
+    ════════════════════════════════════════════════════ */
+
+    async function init() {
+      loadSavedTheme();
+      renderSkeletonStrip();
+
+      const movies = await fetchTrendingMovies();
+
+      if (movies && movies.length > 0) {
+        renderMovieStrip(movies);
+        featuredMovies = movies.slice(0, 5);
+        if (featuredMovies.length > 0) {
+          applyFeaturedMovie(featuredMovies[0], false);
+          resetSlideInterval();
+        }
+      } else {
+        heroTitle.textContent = 'Chillflix Originals';
+        heroGenre.textContent = 'Stream Free · HD';
+        if (movieStrip) {
+          movieStrip.innerHTML = '<p class="text-muted p-4 text-sm">Unable to load movies. Check your connection.</p>';
+        }
+      }
+    }
+
+    init();
+
+    window.addEventListener('beforeunload', () => {
+      if (slideInterval) clearInterval(slideInterval);
+    });
+  </script>
+</body>
+</html>

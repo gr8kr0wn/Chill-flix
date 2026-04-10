@@ -1,0 +1,37 @@
+{
+  "name": "Chillflix — Stream Free",
+  "short_name": "Chillflix",
+  "description": "Stream thousands of movies and series in HD for free. No credit card needed.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#e50914",
+  "background_color": "#0a0a0f",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%230a0a0f'/><rect x='64' y='64' width='384' height='384' rx='48' fill='%23141420'/><text x='256' y='340' font-family='Arial, sans-serif' font-size='180' font-weight='900' text-anchor='middle' fill='%23ffffff' letter-spacing='-4'>C</text><text x='256' y='340' font-family='Arial, sans-serif' font-size='180' font-weight='900' text-anchor='middle' fill='%23e50914' letter-spacing='-4' dx='130'>f</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720'><rect width='1280' height='720' fill='%230a0a0f'/><rect x='40' y='60' width='300' height='450' rx='12' fill='%23141420'/><text x='190' y='300' font-family='Arial' font-size='40' fill='%23e50914' text-anchor='middle'>🎬</text></svg>",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "label": "Home screen showing trending movies"
+    }
+  ],
+  "categories": ["entertainment", "video", "movies"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false
+}

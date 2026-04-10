@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chillflix — My Profile</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎬</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://image.tmdb.org" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- ═══════════════════════════════════════════════════
+     CHILLFLIX SEO META TAGS + PWA
+════════════════════════════════════════════════════ -->
+<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
+<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+<meta name="author" content="Chillflix" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="theme-color" content="#e50914" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Chillflix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chillflix.app/" />
+<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://chillflix.app/" />
+<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('[PWA] Service Worker registered'))
+        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+    });
+  }
+</script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX PROFILE — FIXED SIDEBAR + STRUCTURE
+    ════════════════════════════════════════════════════ */
+
+    :root,
+    [data-theme="dark"] {
+      --bg:         #0a0a0f;
+      --surface:    #0e0e18;
+      --card:       #141420;
+      --card-hov:   #1c1c2e;
+      --border:     rgba(255,255,255,0.09);
+      --border-mid: rgba(255,255,255,0.15);
+      --text:       #ffffff;
+      --muted:      #8a8aaa;
+      --muted2:     rgba(255,255,255,0.35);
+      --red:        #e50914;
+      --red-hov:    #f40612;
+      --nav-bg:     rgba(10,10,15,0.92);
+      --sidebar-bg: #0d0d14;
+      --pill-bg:    rgba(255,255,255,0.06);
+      --pill-hov:   rgba(255,255,255,0.12);
+      --logo-chill: #ffffff;
+      --bottom-nav-bg: rgba(10,10,15,0.95);
+      --gold:       #fbbf24;
+      --gold-grad:  linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      --success:    #22c55e;
+    }
+
+    [data-theme="light"] {
+      --bg:         #f5f5f8;
+      --surface:    #ebebf2;
+      --card:       #ffffff;
+      --card-hov:   #f0f0f7;
+      --border:     rgba(0,0,0,0.10);
+      --border-mid: rgba(0,0,0,0.18);
+      --text:       #0f0f1a;
+      --muted:      #6b6b85;
+      --muted2:     rgba(15,15,26,0.40);
+      --red:        #e50914;
+      --red-hov:    #c00710;
+      --nav-bg:     rgba(245,245,248,0.92);
+      --sidebar-bg: #ebebf2;
+      --pill-bg:    rgba(0,0,0,0.05);
+      --pill-hov:   rgba(0,0,0,0.10);
+      --logo-chill: #0f0f1a;
+      --bottom-nav-bg: rgba(245,245,248,0.95);
+      --gold:       #d97706;
+      --gold-grad:  linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      --success:    #16a34a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', 'Impact', sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 40;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .hamburger {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      background: transparent;
+      border: none;
+      transition: background 0.2s;
+    }
+    .hamburger:hover { background: var(--pill-bg); }
+    .hamburger svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    .logo-link { font-size: 24px; text-decoration: none; }
+    .logo-link .chill { color: var(--logo-chill); transition: color 0.4s; }
+    .logo-link .flix  { color: var(--red); }
+
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .theme-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); }
+    .theme-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    .profile-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--red);
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .profile-btn:hover { background: var(--red-hov); }
+
+    #sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 29;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #sidebar-overlay.visible { display: block; }
+    #sidebar-overlay.faded { opacity: 1; }
+
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 260px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      z-index: 30;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    #sidebar.expanded { transform: translateX(0); }
+
+    .sidebar-header {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .sidebar-nav { padding: 12px 0; flex: 1; }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 20px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-item:hover { background: var(--pill-bg); color: var(--text); }
+    .sidebar-item.active {
+      color: var(--red);
+      border-left-color: var(--red);
+      background: rgba(229,9,20,0.08);
+    }
+    .sidebar-item svg {
+      width: 22px; height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      flex-shrink: 0;
+    }
+    .sidebar-divider { height: 1px; background: var(--border); margin: 12px 16px; }
+    .sidebar-footer { margin-top: auto; }
+    .sidebar-item.logout { color: #e50914; }
+
+    #main-content {
+      margin-left: 0;
+      margin-top: 60px;
+      padding: 24px 28px;
+      min-height: calc(100vh - 60px);
+      max-width: 1000px;
+    }
+
+    .page-header { margin-bottom: 32px; }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .page-title svg { width: 32px; height: 32px; stroke: var(--red); stroke-width: 1.8; fill: none; }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 32px;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+    @media (max-width: 640px) { .profile-header { flex-direction: column; text-align: center; } }
+
+    .avatar-large {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .profile-info { flex: 1; }
+    .profile-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--text); margin-bottom: 4px; }
+    .profile-email { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .plan-badge.free { background: var(--pill-bg); color: var(--muted); border: 1px solid var(--border); }
+    .plan-badge.premium { background: var(--gold-grad); color: #0a0a0f; }
+    .plan-badge svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .edit-profile-btn {
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 12px;
+    }
+    .edit-profile-btn:hover { background: var(--pill-bg); border-color: var(--border-mid); }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .stat-icon {
+      width: 40px; height: 40px;
+      margin: 0 auto 12px;
+      background: rgba(229,9,20,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-icon svg { width: 22px; height: 22px; stroke: var(--red); stroke-width: 1.8; fill: none; }
+    .stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--text); margin-bottom: 4px; }
+    .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title svg { width: 24px; height: 24px; stroke: var(--red); stroke-width: 1.8; }
+
+    .continue-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+    @media (max-width: 768px) { .continue-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .continue-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+      text-decoration: none;
+    }
+    .continue-card:hover { transform: translateY(-2px); }
+    .continue-poster { aspect-ratio: 16/9; background: var(--card-hov); position: relative; }
+    .continue-poster img { width: 100%; height: 100%; object-fit: cover; }
+    .continue-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+      display: flex;
+      align-items: flex-end;
+      padding: 12px;
+    }
+    .progress-bar-small { width: 100%; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; }
+    .progress-fill-small { height: 100%; background: var(--red); border-radius: 2px; }
+    .continue-info { padding: 12px; }
+    .continue-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .continue-progress { font-size: 12px; color: var(--muted); }
+    .empty-continue { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted); }
+
+    .activity-list {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .activity-item:hover { background: var(--card-hov); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(229,9,20,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .activity-icon svg { width: 20px; height: 20px; stroke: var(--red); stroke-width: 1.8; }
+    .activity-content { flex: 1; }
+    .activity-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .activity-desc { font-size: 13px; color: var(--muted); }
+    .activity-time { font-size: 12px; color: var(--muted2); }
+    .empty-activity { text-align: center; padding: 40px; color: var(--muted); }
+
+    #toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--card);
+      border: 1px solid var(--border-mid);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform 0.4s;
+      white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      background: var(--bottom-nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      z-index: 50;
+      padding: 0 16px;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+    }
+    .bottom-nav-item.active { color: var(--red); }
+    .bottom-nav-item svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+
+    @media (max-width: 768px) {
+      #main-content { padding: 16px; padding-bottom: 80px; }
+      .bottom-nav { display: flex; }
+      .hamburger { display: none; }
+      .page-title { font-size: 28px; }
+    }
+    @media (min-width: 769px) { .bottom-nav { display: none; } }
+  </style>
+</head>
+<body>
+
+  <div id="toast"></div>
+
+  <div id="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburgerBtn">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="logo-link logo-text">
+        <span class="chill">Chill</span><span class="flix">flix</span>
+      </a>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <a href="profile.html" class="profile-btn" id="profileInitials">JD</a>
+    </div>
+  </div>
+
+  <div id="sidebar-overlay"></div>
+
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="logo-link logo-text" style="font-size:22px">
+        <span class="chill">Chill</span><span class="flix">flix</span>
+      </a>
+    </div>
+    <div class="sidebar-nav">
+      <a href="movies.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
+        <span class="sidebar-label">Browse</span>
+      </a>
+      <a href="watchlist.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span class="sidebar-label">Watchlist</span>
+      </a>
+      <a href="history.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="sidebar-label">History</span>
+      </a>
+      <div class="sidebar-divider"></div>
+      <a href="settings.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="sidebar-label">Settings</span>
+      </a>
+    </div>
+    <div class="sidebar-footer">
+      <a href="index.html" class="sidebar-item logout">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span class="sidebar-label">Exit</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <div class="page-header">
+      <h1 class="page-title">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        My Profile
+      </h1>
+    </div>
+
+    <div class="profile-header">
+      <div class="avatar-large" id="profileAvatar">JD</div>
+      <div class="profile-info">
+        <h2 class="profile-name" id="profileName">John Doe</h2>
+        <p class="profile-email" id="profileEmail">john.doe@example.com</p>
+        <div id="planBadgeContainer"></div>
+        <a href="settings.html" class="edit-profile-btn">Edit Profile</a>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/></svg></div>
+        <div class="stat-value" id="moviesWatched">0</div>
+        <div class="stat-label">Movies Watched</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="stat-value" id="watchlistCount">0</div>
+        <div class="stat-label">In Watchlist</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="stat-value" id="hoursWatched">0</div>
+        <div class="stat-label">Hours Watched</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="stat-value" id="avgRating">0.0</div>
+        <div class="stat-label">Avg Rating Given</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">
+      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Continue Watching
+    </h2>
+    <div class="continue-grid" id="continueGrid"></div>
+
+    <h2 class="section-title">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Recent Activity
+    </h2>
+    <div class="activity-list" id="activityList"></div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></a>
+    <a href="search.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Search</span></a>
+    <a href="movies.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg><span>Movies</span></a>
+    <a href="watchlist.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Watchlist</span></a>
+    <a href="profile.html" class="bottom-nav-item active"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+   PROTECTED ROUTE CHECK — Redirect if not logged in
+════════════════════════════════════════════════════ */
+
+(function checkAuth() {
+  const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
+  
+  // Public pages that don't require login
+  const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // If this is a public page, skip the check
+  if (publicPages.includes(currentPage)) {
+    return;
+  }
+  
+  // If not logged in, redirect to auth page
+  if (!isLoggedIn) {
+    // Save the page they were trying to access
+    sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
+    window.location.href = 'auth.html';
+  }
+})();
+    const TMDB_API_KEY = 'c619fb205a80d8c6c653895b7eae6f36';
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/';
+    const POSTER_SIZE = 'w342';
+    const BACKDROP_SIZE = 'w780';
+
+    let isDark = true;
+    let sidebarExpanded = false;
+
+    const html = document.documentElement;
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const themeToggle = document.getElementById('themeToggle');
+    const profileInitials = document.getElementById('profileInitials');
+    const profileAvatar = document.getElementById('profileAvatar');
+    const profileName = document.getElementById('profileName');
+    const profileEmail = document.getElementById('profileEmail');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+    function getHistory() { return JSON.parse(localStorage.getItem('chillflix-history') || '[]'); }
+    function getWatchlist() { return JSON.parse(localStorage.getItem('chillflix-watchlist') || '[]'); }
+    function getRatings() { return JSON.parse(localStorage.getItem('chillflix-ratings') || '{}'); }
+    function getInProgress() { return JSON.parse(localStorage.getItem('chillflix-in-progress') || '[]'); }
+    function getActivity() { return JSON.parse(localStorage.getItem('chillflix-activity') || '[]'); }
+    function getProfile() {
+      const saved = localStorage.getItem('chillflix-profile');
+      return saved ? JSON.parse(saved) : { displayName: 'John Doe', email: 'john.doe@example.com' };
+    }
+    function isPremium() { return localStorage.getItem('chillflix-premium') === 'true'; }
+
+    async function fetchFromTMDB(endpoint, params = {}) {
+      const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
+      url.searchParams.append('api_key', TMDB_API_KEY);
+      Object.entries(params).forEach(([k, v]) => url.searchParams.append(k, v));
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`TMDB error: ${response.status}`);
+        return await response.json();
+      } catch (e) { console.error('Fetch failed:', e); return null; }
+    }
+
+    async function fetchMovieDetails(movieId) { return await fetchFromTMDB(`/movie/${movieId}`, { language: 'en-US' }); }
+    function getImageUrl(path, size = POSTER_SIZE) { return path ? `${TMDB_IMAGE_BASE}${size}${path}` : ''; }
+
+    function applyTheme(dark) {
+      isDark = dark;
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeToggle.innerHTML = dark 
+        ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+        : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light');
+    }
+    themeToggle.addEventListener('click', () => applyTheme(!isDark));
+
+    function openSidebar() {
+      sidebarExpanded = true;
+      sidebar.classList.add('expanded');
+      overlay.classList.add('visible');
+      requestAnimationFrame(() => overlay.classList.add('faded'));
+    }
+    function closeSidebar() {
+      if (!sidebarExpanded) return;
+      sidebarExpanded = false;
+      sidebar.classList.remove('expanded');
+      overlay.classList.remove('faded');
+      setTimeout(() => overlay.classList.remove('visible'), 300);
+    }
+    function toggleSidebar() { sidebarExpanded ? closeSidebar() : openSidebar(); }
+
+    hamburgerBtn.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', closeSidebar);
+    document.querySelectorAll('.sidebar-item').forEach(item => item.addEventListener('click', () => setTimeout(closeSidebar, 100)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+
+    function updateStats() {
+      const history = getHistory();
+      const watchlist = getWatchlist();
+      const ratings = getRatings();
+      document.getElementById('moviesWatched').textContent = history.length;
+      document.getElementById('watchlistCount').textContent = watchlist.length;
+      document.getElementById('hoursWatched').textContent = Math.round(history.length * 2);
+      const ratingValues = Object.values(ratings);
+      document.getElementById('avgRating').textContent = ratingValues.length ? (ratingValues.reduce((a,b) => a+b, 0) / ratingValues.length).toFixed(1) : '0.0';
+    }
+
+    function updateProfileUI() {
+      const profile = getProfile();
+      const initials = profile.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      profileInitials.textContent = initials;
+      profileAvatar.textContent = initials;
+      profileName.textContent = profile.displayName;
+      profileEmail.textContent = profile.email;
+      const container = document.getElementById('planBadgeContainer');
+      container.innerHTML = isPremium() 
+        ? '<span class="plan-badge premium"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Premium Member</span>'
+        : '<span class="plan-badge free">Free Plan</span>';
+      updateStats();
+    }
+
+    async function renderContinueWatching() {
+      const grid = document.getElementById('continueGrid');
+      const inProgress = getInProgress().slice(0, 3);
+      if (!inProgress.length) { grid.innerHTML = '<div class="empty-continue">Start watching movies to see them here!</div>'; return; }
+      const cards = await Promise.all(inProgress.map(async (item) => {
+        const movie = await fetchMovieDetails(item.movieId);
+        if (!movie) return null;
+        const backdropUrl = getImageUrl(movie.backdrop_path, BACKDROP_SIZE);
+        const progressPercent = (item.progress / (movie.runtime * 60)) * 100;
+        const remainingMinutes = Math.ceil(((movie.runtime * 60) - item.progress) / 60);
+        return `<a href="watch.html?id=${movie.id}" class="continue-card"><div class="continue-poster">${backdropUrl ? `<img src="${backdropUrl}" alt="${movie.title}">` : ''}<div class="continue-overlay"><div class="progress-bar-small"><div class="progress-fill-small" style="width:${progressPercent}%;"></div></div></div></div><div class="continue-info"><div class="continue-title">${movie.title}</div><div class="continue-progress">${remainingMinutes} min remaining</div></div></a>`;
+      }));
+      grid.innerHTML = cards.filter(c => c).join('');
+    }
+
+    async function renderActivity() {
+      const list = document.getElementById('activityList');
+      const activity = getActivity().slice(0, 5).reverse();
+      if (!activity.length) { list.innerHTML = '<div class="empty-activity">Your recent activity will appear here</div>'; return; }
+      const items = await Promise.all(activity.map(async (item) => {
+        const movie = await fetchMovieDetails(item.movieId);
+        if (!movie) return null;
+        const timeAgo = (() => {
+          const seconds = Math.floor((new Date() - new Date(item.timestamp)) / 1000);
+          if (seconds < 60) return 'Just now';
+          if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`;
+          if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+          return `${Math.floor(seconds / 86400)} days ago`;
+        })();
+        let icon, title, desc;
+        if (item.type === 'watch') { icon = '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>'; title = `Watched ${movie.title}`; desc = `You watched ${Math.floor(item.progress / 60)}m of this movie`; }
+        else if (item.type === 'watchlist') { icon = '<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>'; title = `Added to Watchlist`; desc = movie.title; }
+        else { icon = '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'; title = `Rated ${movie.title}`; desc = `You gave ★ ${item.rating}/10`; }
+        return `<div class="activity-item" onclick="window.location.href='movie.html?id=${movie.id}'"><div class="activity-icon">${icon}</div><div class="activity-content"><div class="activity-title">${title}</div><div class="activity-desc">${desc}</div></div><div class="activity-time">${timeAgo}</div></div>`;
+      }));
+      list.innerHTML = items.filter(i => i).join('');
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    (async function init() {
+      const savedTheme = localStorage.getItem('chillflix-theme');
+      applyTheme(savedTheme ? savedTheme === 'dark' : true);
+      updateProfileUI();
+      if (!localStorage.getItem('chillflix-profile')) localStorage.setItem('chillflix-profile', JSON.stringify({ displayName: 'John Doe', email: 'john.doe@example.com' }));
+      await Promise.all([renderContinueWatching(), renderActivity()]);
+    })();
+  </script>
+</body>
+</html>

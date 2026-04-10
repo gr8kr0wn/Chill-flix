@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chillflix — Settings</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎬</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- ═══════════════════════════════════════════════════
+     CHILLFLIX SEO META TAGS + PWA
+════════════════════════════════════════════════════ -->
+<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
+<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+<meta name="author" content="Chillflix" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="theme-color" content="#e50914" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Chillflix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chillflix.app/" />
+<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://chillflix.app/" />
+<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('[PWA] Service Worker registered'))
+        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+    });
+  }
+</script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX SETTINGS — FIXED SIDEBAR + TABS
+    ════════════════════════════════════════════════════ */
+
+    :root,
+    [data-theme="dark"] {
+      --bg:         #0a0a0f;
+      --surface:    #0e0e18;
+      --card:       #141420;
+      --card-hov:   #1c1c2e;
+      --border:     rgba(255,255,255,0.09);
+      --border-mid: rgba(255,255,255,0.15);
+      --text:       #ffffff;
+      --muted:      #8a8aaa;
+      --muted2:     rgba(255,255,255,0.35);
+      --red:        #e50914;
+      --red-hov:    #f40612;
+      --nav-bg:     rgba(10,10,15,0.92);
+      --sidebar-bg: #0d0d14;
+      --pill-bg:    rgba(255,255,255,0.06);
+      --pill-hov:   rgba(255,255,255,0.12);
+      --logo-chill: #ffffff;
+      --bottom-nav-bg: rgba(10,10,15,0.95);
+      --toggle-on: #e50914;
+      --toggle-off: rgba(255,255,255,0.15);
+      --danger-bg: rgba(229,9,20,0.05);
+      --danger-border: rgba(229,9,20,0.2);
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+
+    [data-theme="light"] {
+      --bg:         #f5f5f8;
+      --surface:    #ebebf2;
+      --card:       #ffffff;
+      --card-hov:   #f0f0f7;
+      --border:     rgba(0,0,0,0.10);
+      --border-mid: rgba(0,0,0,0.18);
+      --text:       #0f0f1a;
+      --muted:      #6b6b85;
+      --muted2:     rgba(15,15,26,0.40);
+      --red:        #e50914;
+      --red-hov:    #c00710;
+      --nav-bg:     rgba(245,245,248,0.92);
+      --sidebar-bg: #ebebf2;
+      --pill-bg:    rgba(0,0,0,0.05);
+      --pill-hov:   rgba(0,0,0,0.10);
+      --logo-chill: #0f0f1a;
+      --bottom-nav-bg: rgba(245,245,248,0.95);
+      --toggle-on: #e50914;
+      --toggle-off: rgba(0,0,0,0.15);
+      --danger-bg: rgba(229,9,20,0.03);
+      --danger-border: rgba(229,9,20,0.15);
+      --success: #16a34a;
+      --error: #dc2626;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', 'Impact', sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    /* ── SCROLLBAR ──────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+
+    /* ── TOPBAR ─────────────────────────────── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 40;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hamburger {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      background: transparent;
+      border: none;
+      transition: background 0.2s;
+    }
+    .hamburger:hover { background: var(--pill-bg); }
+
+    .hamburger svg {
+      width: 22px; height: 22px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .logo-link {
+      font-size: 24px;
+      text-decoration: none;
+    }
+    .logo-link .chill { color: var(--logo-chill); transition: color 0.4s; }
+    .logo-link .flix  { color: var(--red); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); }
+
+    .theme-btn svg {
+      width: 20px; height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .profile-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--red);
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .profile-btn:hover { background: var(--red-hov); }
+
+    /* ── SIDEBAR OVERLAY ────────────────────── */
+    #sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 29;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #sidebar-overlay.visible { display: block; }
+    #sidebar-overlay.faded { opacity: 1; }
+
+    /* ── SIDEBAR (HIDDEN BY DEFAULT) ────────── */
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 260px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      z-index: 30;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #sidebar.expanded { transform: translateX(0); }
+
+    .sidebar-header {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav { padding: 12px 0; flex: 1; }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 20px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-item:hover {
+      background: var(--pill-bg);
+      color: var(--text);
+    }
+
+    .sidebar-item.active {
+      color: var(--red);
+      border-left-color: var(--red);
+      background: rgba(229,9,20,0.08);
+    }
+
+    .sidebar-item svg {
+      width: 22px; height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 12px 16px;
+    }
+
+    .sidebar-footer { margin-top: auto; }
+
+    .sidebar-item.logout { color: #e50914; }
+
+    /* ── MAIN CONTENT ───────────────────────── */
+    #main-content {
+      margin-left: 0;
+      margin-top: 60px;
+      padding: 24px 28px;
+      min-height: calc(100vh - 60px);
+      max-width: 900px;
+    }
+
+    /* ── PAGE HEADER ────────────────────────── */
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-title svg {
+      width: 32px; height: 32px;
+      stroke: var(--red);
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    /* ── SETTINGS NAV ───────────────────────── */
+    .settings-nav {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .settings-nav::-webkit-scrollbar { display: none; }
+
+    .settings-nav-item {
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.2s;
+    }
+    .settings-nav-item:hover { color: var(--text); background: var(--pill-bg); }
+    .settings-nav-item.active {
+      color: var(--red);
+      border-bottom: 2px solid var(--red);
+    }
+
+    /* ── SETTINGS SECTIONS ─────────────────── */
+    .settings-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .settings-section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .settings-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 8px 0;
+      margin-bottom: 28px;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .settings-row:last-child { border-bottom: none; }
+
+    .settings-info { flex: 1; }
+    .settings-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .settings-desc {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .settings-action {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-value {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .edit-btn, .upgrade-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .edit-btn:hover { background: var(--pill-bg); }
+    .upgrade-btn {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+    .upgrade-btn:hover { background: var(--red-hov); }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      width: 48px;
+      height: 26px;
+      border-radius: 13px;
+      background: var(--toggle-off);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .toggle-switch.active { background: var(--toggle-on); }
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: white;
+      top: 3px; left: 3px;
+      transition: transform 0.2s;
+    }
+    .toggle-switch.active::after { transform: translateX(22px); }
+
+    /* Select Dropdown */
+    .settings-select {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+    }
+    .settings-select option { background: var(--card); }
+
+    /* Premium Badge */
+    .premium-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--red) 0%, #b30710 100%);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .premium-badge svg {
+      width: 12px; height: 12px;
+      fill: white;
+    }
+
+    /* Plan Card */
+    .plan-card {
+      background: var(--card-hov);
+      border: 1px solid var(--red);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .plan-info h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .plan-info p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Danger Zone */
+    .danger-group {
+      border-color: var(--danger-border);
+      background: var(--danger-bg);
+    }
+    .danger-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: transparent;
+      border: 1px solid var(--danger-border);
+      color: var(--red);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .danger-btn:hover {
+      background: var(--red);
+      color: white;
+    }
+
+    /* Storage Bar */
+    .storage-info { margin-top: 12px; }
+    .storage-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 8px 0 4px;
+    }
+    .storage-fill {
+      height: 100%;
+      width: 35%;
+      background: var(--red);
+      border-radius: 3px;
+    }
+    .storage-text {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── MODAL ─────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: var(--text);
+    }
+
+    .modal-close-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close-btn:hover { background: var(--pill-bg); }
+
+    .modal-close-btn svg {
+      width: 18px; height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--red); }
+    .form-input.error { border-color: var(--error); }
+    .error-message {
+      font-size: 11px;
+      color: var(--error);
+      margin-top: 4px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .modal-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 30px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .modal-btn.cancel {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .modal-btn.save, .modal-btn.confirm {
+      background: var(--red);
+      color: white;
+    }
+    .modal-btn.save:hover, .modal-btn.confirm:hover { background: var(--red-hov); }
+
+    .modal-icon {
+      width: 56px; height: 56px;
+      margin: 0 auto 16px;
+      background: var(--danger-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-icon svg {
+      width: 28px; height: 28px;
+      stroke: var(--red);
+      stroke-width: 2;
+    }
+    .modal-text {
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    /* ── TOAST ──────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--card);
+      border: 1px solid var(--border-mid);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform 0.4s;
+      white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── BOTTOM NAV (MOBILE) ───────────────── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      background: var(--bottom-nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      z-index: 50;
+      padding: 0 16px;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+    }
+    .bottom-nav-item.active { color: var(--red); }
+    .bottom-nav-item svg {
+      width: 22px; height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 768px) {
+      #main-content { padding: 16px; padding-bottom: 80px; }
+      .bottom-nav { display: flex; }
+      .hamburger { display: none; }
+      .page-title { font-size: 28px; }
+      .settings-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .settings-action { width: 100%; justify-content: space-between; }
+    }
+
+    @media (min-width: 769px) {
+      .bottom-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <!-- EDIT PROFILE MODAL -->
+  <div class="modal-overlay" id="editModal" onclick="closeEditModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="editModalTitle">Edit Display Name</h3>
+        <button class="modal-close-btn" onclick="closeEditModal()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="saveEdit(event)">
+        <div class="form-group">
+          <label class="form-label" for="editField">Display name</label>
+          <input type="text" class="form-input" id="editField" value="John Doe" />
+          <div class="error-message" id="editError"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="modal-btn cancel" onclick="closeEditModal()">Cancel</button>
+          <button type="submit" class="modal-btn save">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT EMAIL MODAL -->
+  <div class="modal-overlay" id="emailModal" onclick="closeEmailModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Email</h3>
+        <button class="modal-close-btn" onclick="closeEmailModal()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="saveEmail(event)">
+        <div class="form-group">
+          <label class="form-label" for="emailField">New email address</label>
+          <input type="email" class="form-input" id="emailField" value="john.doe@example.com" />
+          <div class="error-message" id="emailError"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="modal-btn cancel" onclick="closeEmailModal()">Cancel</button>
+          <button type="submit" class="modal-btn save">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CHANGE PASSWORD MODAL -->
+  <div class="modal-overlay" id="passwordModal" onclick="closePasswordModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Password</h3>
+        <button class="modal-close-btn" onclick="closePasswordModal()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form onsubmit="savePassword(event)">
+        <div class="form-group">
+          <label class="form-label" for="currentPassword">Current password</label>
+          <input type="password" class="form-input" id="currentPassword" placeholder="Enter current password" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newPassword">New password</label>
+          <input type="password" class="form-input" id="newPassword" placeholder="Enter new password" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">Confirm new password</label>
+          <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm new password" />
+        </div>
+        <div class="error-message" id="passwordError"></div>
+        <div class="modal-actions">
+          <button type="button" class="modal-btn cancel" onclick="closePasswordModal()">Cancel</button>
+          <button type="submit" class="modal-btn save">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="confirmModal" onclick="closeConfirmModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h3 class="modal-title" id="confirmModalTitle">Confirm Action</h3>
+      <p class="modal-text" id="confirmModalMessage">Are you sure you want to proceed?</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeConfirmModal()">Cancel</button>
+        <button class="modal-btn confirm" id="confirmModalBtn" onclick="executeConfirmedAction()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOPBAR ─────────────────────────────── -->
+  <div id="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburgerBtn">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="logo-link logo-text">
+        <span class="chill">Chill</span><span class="flix">flix</span>
+      </a>
+    </div>
+
+    <div class="topbar-right">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <a href="profile.html" class="profile-btn" id="profileInitials">JD</a>
+    </div>
+  </div>
+
+  <!-- SIDEBAR OVERLAY -->
+  <div id="sidebar-overlay"></div>
+
+  <!-- ── SIDEBAR ───────────────────────────── -->
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="logo-link logo-text" style="font-size:22px">
+        <span class="chill">Chill</span><span class="flix">flix</span>
+      </a>
+    </div>
+    <div class="sidebar-nav">
+      <a href="movies.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
+        <span class="sidebar-label">Browse</span>
+      </a>
+      <a href="watchlist.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span class="sidebar-label">Watchlist</span>
+      </a>
+      <a href="history.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="sidebar-label">History</span>
+      </a>
+
+      <div class="sidebar-divider"></div>
+
+      <a href="settings.html" class="sidebar-item active">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="sidebar-label">Settings</span>
+      </a>
+    </div>
+    <div class="sidebar-footer">
+      <a href="index.html" class="sidebar-item logout">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span class="sidebar-label">Exit</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MAIN CONTENT ───────────────────────── -->
+  <div id="main-content">
+    <div class="page-header">
+      <h1 class="page-title">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </h1>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="settings-nav">
+      <button class="settings-nav-item active" onclick="switchSection('account', event)">Account</button>
+      <button class="settings-nav-item" onclick="switchSection('playback', event)">Playback</button>
+      <button class="settings-nav-item" onclick="switchSection('downloads', event)">Downloads</button>
+      <button class="settings-nav-item" onclick="switchSection('notifications', event)">Notifications</button>
+      <button class="settings-nav-item" onclick="switchSection('privacy', event)">Privacy</button>
+      <button class="settings-nav-item" onclick="switchSection('subscription', event)">Subscription</button>
+    </div>
+
+    <!-- Account Section -->
+    <div class="settings-section active" id="section-account">
+      <div class="section-title">Profile Information</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Display name</div>
+            <div class="settings-desc" id="displayNameValue">John Doe</div>
+          </div>
+          <div class="settings-action">
+            <button class="edit-btn" onclick="openEditModal()">Edit</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Email address</div>
+            <div class="settings-desc" id="emailValue">john.doe@example.com</div>
+          </div>
+          <div class="settings-action">
+            <button class="edit-btn" onclick="openEmailModal()">Change</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Password</div>
+            <div class="settings-desc" id="passwordLastChanged">Last changed 3 months ago</div>
+          </div>
+          <div class="settings-action">
+            <button class="edit-btn" onclick="openPasswordModal()">Change</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Appearance</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Theme</div>
+            <div class="settings-desc">Switch between dark and light mode</div>
+          </div>
+          <div class="settings-action">
+            <span class="settings-value" id="themeLabel">Dark</span>
+            <button class="toggle-switch active" id="themeToggleSetting" onclick="toggleThemeSetting()"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Playback Section -->
+    <div class="settings-section" id="section-playback">
+      <div class="section-title">Video Playback</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Default quality</div>
+            <div class="settings-desc">Choose your preferred streaming quality</div>
+          </div>
+          <div class="settings-action">
+            <select class="settings-select" id="qualitySelect" onchange="saveQualitySetting()">
+              <option value="auto">Auto</option>
+              <option value="720p">720p HD</option>
+              <option value="1080p">1080p Full HD</option>
+              <option value="4K">4K Ultra HD</option>
+            </select>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Autoplay next episode</div>
+            <div class="settings-desc">Automatically play the next movie or episode</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch active" id="autoplayToggle" onclick="toggleSetting('autoplay', this)"></button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Subtitles by default</div>
+            <div class="settings-desc">Always show subtitles when available</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch" id="subtitlesToggle" onclick="toggleSetting('subtitles', this)"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Downloads Section -->
+    <div class="settings-section" id="section-downloads">
+      <div class="section-title">Download Settings</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Download quality</div>
+            <div class="settings-desc">Choose quality for downloaded movies</div>
+          </div>
+          <div class="settings-action">
+            <select class="settings-select" id="downloadQualitySelect" onchange="saveDownloadQuality()">
+              <option value="720p">720p HD</option>
+              <option value="1080p">1080p Full HD</option>
+            </select>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Wi-Fi only downloads</div>
+            <div class="settings-desc">Only download when connected to Wi-Fi</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch active" id="wifiOnlyToggle" onclick="toggleSetting('wifiOnly', this)"></button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Download over cellular</div>
+            <div class="settings-desc">Allow downloads on mobile data</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch" id="cellularToggle" onclick="handlePremiumGate('cellular', this)"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Storage</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Downloaded movies</div>
+            <div class="storage-info">
+              <div class="storage-bar">
+                <div class="storage-fill"></div>
+              </div>
+              <div class="storage-text">3.2 GB of 10 GB used</div>
+            </div>
+          </div>
+          <div class="settings-action">
+            <button class="edit-btn" onclick="showToast('Manage downloads coming soon')">Manage</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications Section -->
+    <div class="settings-section" id="section-notifications">
+      <div class="section-title">Email Notifications</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">New releases</div>
+            <div class="settings-desc">Get notified when new movies are added</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch active" id="newReleasesToggle" onclick="toggleSetting('newReleases', this)"></button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Friend activity</div>
+            <div class="settings-desc">See when friends watch or share movies</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch active" id="friendActivityToggle" onclick="toggleSetting('friendActivity', this)"></button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Watch party invites</div>
+            <div class="settings-desc">Get notified when friends invite you</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch" id="partyInvitesToggle" onclick="toggleSetting('partyInvites', this)"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Section -->
+    <div class="settings-section" id="section-privacy">
+      <div class="section-title">Privacy Settings</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Watch history</div>
+            <div class="settings-desc">Save movies you've watched</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch active" id="historyToggle" onclick="toggleSetting('history', this)"></button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Profile visibility</div>
+            <div class="settings-desc">Allow others to find your profile</div>
+          </div>
+          <div class="settings-action">
+            <button class="toggle-switch active" id="profileVisibilityToggle" onclick="toggleSetting('profileVisibility', this)"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Danger Zone</div>
+      <div class="settings-group danger-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Clear watch history</div>
+            <div class="settings-desc">Permanently delete your entire watch history</div>
+          </div>
+          <div class="settings-action">
+            <button class="danger-btn" onclick="confirmDanger('clearHistory')">Clear</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Clear watchlist</div>
+            <div class="settings-desc">Remove all movies from your watchlist</div>
+          </div>
+          <div class="settings-action">
+            <button class="danger-btn" onclick="confirmDanger('clearWatchlist')">Clear</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Delete account</div>
+            <div class="settings-desc">Permanently delete your account and all data</div>
+          </div>
+          <div class="settings-action">
+            <button class="danger-btn" onclick="confirmDanger('deleteAccount')">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscription Section -->
+    <div class="settings-section" id="section-subscription">
+      <div class="section-title">Current Plan</div>
+      <div class="plan-card">
+        <div class="plan-info">
+          <h4 id="planName">Free Plan</h4>
+          <p id="planDesc">720p streaming · 1 screen · Ads included</p>
+        </div>
+        <a href="upgrade.html" class="upgrade-btn" id="upgradeLink">Upgrade to Premium</a>
+      </div>
+
+      <div class="section-title">Premium Features</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">4K Ultra HD</div>
+            <div class="settings-desc">Stream in stunning 4K quality</div>
+          </div>
+          <div class="settings-action">
+            <span class="premium-badge">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Premium
+            </span>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Offline downloads</div>
+            <div class="settings-desc">Download movies to watch offline</div>
+          </div>
+          <div class="settings-action">
+            <span class="premium-badge">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Premium
+            </span>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">Watch Together</div>
+            <div class="settings-desc">Sync movies with friends in real-time</div>
+          </div>
+          <div class="settings-action">
+            <span class="premium-badge">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Premium
+            </span>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-info">
+            <div class="settings-label">No advertisements</div>
+            <div class="settings-desc">Enjoy uninterrupted viewing</div>
+          </div>
+          <div class="settings-action">
+            <span class="premium-badge">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Premium
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BOTTOM NAV (MOBILE) ────────────────── -->
+  <div class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="search.html" class="bottom-nav-item">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="movies.html" class="bottom-nav-item">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg>
+      <span>Movies</span>
+    </a>
+    <a href="watchlist.html" class="bottom-nav-item">
+      <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <span>Watchlist</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+   PROTECTED ROUTE CHECK — Redirect if not logged in
+════════════════════════════════════════════════════ */
+
+(function checkAuth() {
+  const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
+  
+  // Public pages that don't require login
+  const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // If this is a public page, skip the check
+  if (publicPages.includes(currentPage)) {
+    return;
+  }
+  
+  // If not logged in, redirect to auth page
+  if (!isLoggedIn) {
+    // Save the page they were trying to access
+    sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
+    window.location.href = 'auth.html';
+  }
+})();
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX SETTINGS — FIXED SIDEBAR + TABS
+    ════════════════════════════════════════════════════ */
+
+    const isPremium = localStorage.getItem('chillflix-premium') === 'true';
+    let isDark = true;
+    let sidebarExpanded = false;
+    let pendingAction = null;
+    let currentEditType = 'name';
+
+    const html = document.documentElement;
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleSetting = document.getElementById('themeToggleSetting');
+    const themeLabel = document.getElementById('themeLabel');
+    const profileInitials = document.getElementById('profileInitials');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+    // ── PROFILE DATA ──────────────────────────
+    function getProfile() {
+      const saved = localStorage.getItem('chillflix-profile');
+      return saved ? JSON.parse(saved) : {
+        displayName: 'John Doe',
+        email: 'john.doe@example.com',
+        passwordLastChanged: new Date().toISOString()
+      };
+    }
+
+    function saveProfile(profile) {
+      localStorage.setItem('chillflix-profile', JSON.stringify(profile));
+      updateProfileUI();
+    }
+
+    function updateProfileUI() {
+      const profile = getProfile();
+      document.getElementById('displayNameValue').textContent = profile.displayName;
+      document.getElementById('emailValue').textContent = profile.email;
+      
+      const initials = profile.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      profileInitials.textContent = initials;
+      
+      const lastChanged = new Date(profile.passwordLastChanged);
+      const monthsAgo = Math.floor((Date.now() - lastChanged) / (1000 * 60 * 60 * 24 * 30));
+      document.getElementById('passwordLastChanged').textContent = 
+        `Last changed ${monthsAgo} month${monthsAgo !== 1 ? 's' : ''} ago`;
+
+      // Update subscription display
+      if (isPremium) {
+        document.getElementById('planName').textContent = 'Premium Plan';
+        document.getElementById('planDesc').textContent = '4K HDR · 4 screens · No ads · Downloads';
+        document.getElementById('upgradeLink').style.display = 'none';
+      }
+    }
+
+    // ── THEME ─────────────────────────────────
+    function applyTheme(dark) {
+      isDark = dark;
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      const icon = dark 
+        ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+        : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      themeToggle.innerHTML = icon;
+      themeLabel.textContent = dark ? 'Dark' : 'Light';
+      themeToggleSetting.classList.toggle('active', dark);
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light');
+    }
+
+    function toggleThemeSetting() {
+      applyTheme(!isDark);
+    }
+
+    themeToggle.addEventListener('click', () => applyTheme(!isDark));
+
+    // ── SIDEBAR ──────────────────────────────
+    function openSidebar() {
+      sidebarExpanded = true;
+      sidebar.classList.add('expanded');
+      overlay.classList.add('visible');
+      requestAnimationFrame(() => overlay.classList.add('faded'));
+    }
+
+    function closeSidebar() {
+      if (!sidebarExpanded) return;
+      sidebarExpanded = false;
+      sidebar.classList.remove('expanded');
+      overlay.classList.remove('faded');
+      setTimeout(() => overlay.classList.remove('visible'), 300);
+    }
+
+    function toggleSidebar() {
+      sidebarExpanded ? closeSidebar() : openSidebar();
+    }
+
+    // Event listeners for sidebar
+    hamburgerBtn.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+      item.addEventListener('click', () => setTimeout(closeSidebar, 100));
+    });
+
+    document.addEventListener('keydown', (e) => { 
+      if (e.key === 'Escape') closeSidebar(); 
+    });
+
+    // ── SECTION SWITCHING (FIXED) ────────────
+    function switchSection(section, evt) {
+      document.querySelectorAll('.settings-nav-item').forEach(item => item.classList.remove('active'));
+      if (evt && evt.target) {
+        evt.target.classList.add('active');
+      }
+      document.querySelectorAll('.settings-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(`section-${section}`).classList.add('active');
+    }
+
+    // ── EDIT MODALS ──────────────────────────
+    function openEditModal() {
+      currentEditType = 'name';
+      const profile = getProfile();
+      document.getElementById('editModalTitle').textContent = 'Edit Display Name';
+      document.getElementById('editField').type = 'text';
+      document.getElementById('editField').value = profile.displayName;
+      document.getElementById('editError').textContent = '';
+      document.getElementById('editModal').classList.add('show');
+    }
+
+    function openEmailModal() {
+      currentEditType = 'email';
+      const profile = getProfile();
+      document.getElementById('emailField').value = profile.email;
+      document.getElementById('emailError').textContent = '';
+      document.getElementById('emailModal').classList.add('show');
+    }
+
+    function openPasswordModal() {
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+      document.getElementById('passwordError').textContent = '';
+      document.getElementById('passwordModal').classList.add('show');
+    }
+
+    function closeEditModal(e) {
+      if (!e || e.target.classList.contains('modal-overlay')) {
+        document.getElementById('editModal').classList.remove('show');
+      }
+    }
+
+    function closeEmailModal(e) {
+      if (!e || e.target.classList.contains('modal-overlay')) {
+        document.getElementById('emailModal').classList.remove('show');
+      }
+    }
+
+    function closePasswordModal(e) {
+      if (!e || e.target.classList.contains('modal-overlay')) {
+        document.getElementById('passwordModal').classList.remove('show');
+      }
+    }
+
+    function saveEdit(event) {
+      event.preventDefault();
+      const value = document.getElementById('editField').value.trim();
+      const errorEl = document.getElementById('editError');
+      
+      if (!value) {
+        errorEl.textContent = 'Display name cannot be empty';
+        return;
+      }
+      
+      const profile = getProfile();
+      profile.displayName = value;
+      saveProfile(profile);
+      closeEditModal();
+      showToast('Display name updated');
+    }
+
+    function saveEmail(event) {
+      event.preventDefault();
+      const email = document.getElementById('emailField').value.trim();
+      const errorEl = document.getElementById('emailError');
+      
+      if (!email) {
+        errorEl.textContent = 'Email cannot be empty';
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errorEl.textContent = 'Please enter a valid email address';
+        return;
+      }
+      
+      const profile = getProfile();
+      profile.email = email;
+      saveProfile(profile);
+      closeEmailModal();
+      showToast('Email address updated');
+    }
+
+    function savePassword(event) {
+      event.preventDefault();
+      const current = document.getElementById('currentPassword').value;
+      const newPass = document.getElementById('newPassword').value;
+      const confirm = document.getElementById('confirmPassword').value;
+      const errorEl = document.getElementById('passwordError');
+      
+      if (!current || !newPass || !confirm) {
+        errorEl.textContent = 'All fields are required';
+        return;
+      }
+      if (newPass.length < 6) {
+        errorEl.textContent = 'Password must be at least 6 characters';
+        return;
+      }
+      if (newPass !== confirm) {
+        errorEl.textContent = 'Passwords do not match';
+        return;
+      }
+      
+      const profile = getProfile();
+      profile.passwordLastChanged = new Date().toISOString();
+      saveProfile(profile);
+      closePasswordModal();
+      showToast('Password updated successfully');
+    }
+
+    // ── TOGGLE SETTINGS ──────────────────────
+    function toggleSetting(key, btn) {
+      btn.classList.toggle('active');
+      const value = btn.classList.contains('active');
+      localStorage.setItem(`chillflix-${key}`, value);
+      showToast(`${key.replace(/([A-Z])/g, ' $1').toLowerCase()} ${value ? 'enabled' : 'disabled'}`);
+    }
+
+    function handlePremiumGate(feature, btn) {
+      if (isPremium) {
+        toggleSetting(feature, btn);
+      } else {
+        showToast(`${feature} is a premium feature. Upgrade to unlock.`);
+      }
+    }
+
+    function saveQualitySetting() {
+      const select = document.getElementById('qualitySelect');
+      if (select.value === '4K' && !isPremium) {
+        select.value = '1080p';
+        showToast('4K is a premium feature. Upgrade to unlock.');
+      }
+      localStorage.setItem('chillflix-quality', select.value);
+      showToast(`Quality set to ${select.value}`);
+    }
+
+    function saveDownloadQuality() {
+      const select = document.getElementById('downloadQualitySelect');
+      localStorage.setItem('chillflix-download-quality', select.value);
+      showToast(`Download quality set to ${select.value}`);
+    }
+
+    // ── DANGER ZONE ──────────────────────────
+    function confirmDanger(action) {
+      pendingAction = action;
+      const title = document.getElementById('confirmModalTitle');
+      const message = document.getElementById('confirmModalMessage');
+      
+      switch(action) {
+        case 'clearHistory':
+          title.textContent = 'Clear Watch History';
+          message.textContent = 'This will permanently delete your entire watch history. This action cannot be undone.';
+          break;
+        case 'clearWatchlist':
+          title.textContent = 'Clear Watchlist';
+          message.textContent = 'All movies will be removed from your watchlist. This action cannot be undone.';
+          break;
+        case 'deleteAccount':
+          title.textContent = 'Delete Account';
+          message.textContent = 'Your account and all associated data will be permanently deleted. This action cannot be undone.';
+          break;
+      }
+      
+      document.getElementById('confirmModal').classList.add('show');
+    }
+
+    function executeConfirmedAction() {
+      if (pendingAction === 'clearWatchlist') {
+        localStorage.setItem('chillflix-watchlist', '[]');
+        showToast('Watchlist cleared');
+      } else if (pendingAction === 'clearHistory') {
+        localStorage.setItem('chillflix-history', '[]');
+        localStorage.setItem('chillflix-in-progress', '[]');
+        localStorage.setItem('chillflix-activity', '[]');
+        showToast('Watch history cleared');
+      } else if (pendingAction === 'deleteAccount') {
+        localStorage.clear();
+        showToast('Account deleted');
+        setTimeout(() => window.location.href = 'index.html', 1500);
+      }
+      
+      closeConfirmModal();
+      pendingAction = null;
+    }
+
+    function closeConfirmModal(e) {
+      if (!e || e.target.classList.contains('modal-overlay')) {
+        document.getElementById('confirmModal').classList.remove('show');
+      }
+    }
+
+    // ── TOAST ────────────────────────────────
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ── LOAD SAVED SETTINGS ──────────────────
+    function loadSavedSettings() {
+      const savedQuality = localStorage.getItem('chillflix-quality') || 'auto';
+      document.getElementById('qualitySelect').value = savedQuality;
+      
+      const toggles = ['autoplay', 'subtitles', 'wifiOnly', 'newReleases', 'friendActivity', 'partyInvites', 'history', 'profileVisibility'];
+      toggles.forEach(key => {
+        const saved = localStorage.getItem(`chillflix-${key}`);
+        const btn = document.getElementById(`${key}Toggle`);
+        if (btn) {
+          const isActive = saved === 'true' || saved === null;
+          btn.classList.toggle('active', isActive);
+        }
+      });
+    }
+
+    // ── INIT ─────────────────────────────────
+    (function init() {
+      const savedTheme = localStorage.getItem('chillflix-theme');
+      applyTheme(savedTheme ? savedTheme === 'dark' : true);
+      updateProfileUI();
+      loadSavedSettings();
+      
+      if (!localStorage.getItem('chillflix-profile')) {
+        localStorage.setItem('chillflix-profile', JSON.stringify({
+          displayName: 'John Doe',
+          email: 'john.doe@example.com',
+          passwordLastChanged: new Date().toISOString()
+        }));
+      }
+    })();
+  </script>
+</body>
+</html>

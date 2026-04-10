@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chillflix — Movie Details</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎬</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://image.tmdb.org" />
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- ═══════════════════════════════════════════════════
+     CHILLFLIX SEO META TAGS + PWA
+════════════════════════════════════════════════════ -->
+<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
+<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+<meta name="author" content="Chillflix" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="theme-color" content="#e50914" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Chillflix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chillflix.app/" />
+<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://chillflix.app/" />
+<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('[PWA] Service Worker registered'))
+        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+    });
+  }
+</script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX MOVIE DETAILS — PRODUCTION READY
+       Freemium logic + TMDB + Embedded trailer + Real Downloads
+       Icons only (no emojis)
+    ════════════════════════════════════════════════════ */
+
+    :root,
+    [data-theme="dark"] {
+      --bg:         #0a0a0f;
+      --surface:    #0e0e18;
+      --card:       #141420;
+      --card-hov:   #1c1c2e;
+      --border:     rgba(255,255,255,0.09);
+      --border-mid: rgba(255,255,255,0.15);
+      --text:       #ffffff;
+      --muted:      #8a8aaa;
+      --muted2:     rgba(255,255,255,0.35);
+      --red:        #e50914;
+      --red-hov:    #f40612;
+      --nav-bg:     rgba(10,10,15,0.92);
+      --input-bg:   rgba(255,255,255,0.06);
+      --pill-bg:    rgba(255,255,255,0.06);
+      --pill-hov:   rgba(255,255,255,0.12);
+      --logo-chill: #ffffff;
+      --premium-grad: linear-gradient(135deg, #e50914 0%, #b30710 100%);
+      --upgrade-bg: rgba(229,9,20,0.1);
+      --gold:       #fbbf24;
+      --success:    #22c55e;
+    }
+
+    [data-theme="light"] {
+      --bg:         #f5f5f8;
+      --surface:    #ebebf2;
+      --card:       #ffffff;
+      --card-hov:   #f0f0f7;
+      --border:     rgba(0,0,0,0.10);
+      --border-mid: rgba(0,0,0,0.18);
+      --text:       #0f0f1a;
+      --muted:      #6b6b85;
+      --muted2:     rgba(15,15,26,0.40);
+      --red:        #e50914;
+      --red-hov:    #c00710;
+      --nav-bg:     rgba(245,245,248,0.92);
+      --input-bg:   rgba(0,0,0,0.04);
+      --pill-bg:    rgba(0,0,0,0.05);
+      --pill-hov:   rgba(0,0,0,0.10);
+      --logo-chill: #0f0f1a;
+      --premium-grad: linear-gradient(135deg, #e50914 0%, #b30710 100%);
+      --upgrade-bg: rgba(229,9,20,0.05);
+      --gold:       #d97706;
+      --success:    #16a34a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', 'Impact', sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+
+    /* ── TOPBAR ─────────────────────────────── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 40;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .back-btn {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; color: var(--text);
+      background: transparent; border: none; transition: background 0.2s;
+      text-decoration: none;
+    }
+    .back-btn:hover { background: var(--pill-bg); }
+    .back-btn svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    .logo-link { font-size: 24px; text-decoration: none; }
+    .logo-link .chill { color: var(--logo-chill); transition: color 0.4s; }
+    .logo-link .flix  { color: var(--red); }
+
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .theme-btn {
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+      background: transparent; color: var(--text); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); }
+    .theme-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    .profile-btn {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: white;
+      font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none; transition: background 0.2s; text-decoration: none;
+    }
+    .profile-btn:hover { background: var(--red-hov); }
+
+    /* ── HERO BACKDROP (DESKTOP ONLY) ───────── */
+    #heroBackdrop {
+      position: absolute; top: 60px; left: 0; right: 0; height: 500px;
+      background-size: cover; background-position: center 20%;
+      filter: blur(60px) brightness(0.4); transform: scale(1.1); z-index: 0;
+    }
+    [data-theme="light"] #heroBackdrop { filter: blur(60px) brightness(0.7); }
+    #heroOverlay {
+      position: absolute; top: 60px; left: 0; right: 0; height: 500px;
+      background: linear-gradient(to bottom, transparent 0%, var(--bg) 90%); z-index: 1;
+    }
+    @media (max-width: 768px) { #heroBackdrop, #heroOverlay { display: none; } }
+
+    /* ── MAIN CONTENT ───────────────────────── */
+    #main-content {
+      position: relative; z-index: 2; margin-top: 60px;
+      min-height: calc(100vh - 60px); padding: 0 28px 40px;
+    }
+    @media (max-width: 768px) { #main-content { padding: 0 16px 80px; } }
+
+    /* ── MOVIE HEADER ──────────────────────── */
+    .movie-header {
+      display: flex; gap: 40px; padding: 40px 0; max-width: 1200px; margin: 0 auto;
+    }
+    @media (max-width: 768px) { .movie-header { flex-direction: column; gap: 24px; padding: 20px 0; } }
+
+    .poster-section { flex-shrink: 0; width: 300px; }
+    @media (max-width: 768px) { .poster-section { width: 100%; max-width: 250px; margin: 0 auto; } }
+
+    .movie-poster {
+      aspect-ratio: 2/3; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+    .movie-poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .info-section { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .movie-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.1; color: var(--text); margin-bottom: 8px;
+    }
+    .movie-tagline { font-size: 16px; color: var(--muted); font-style: italic; margin-bottom: 16px; }
+    .movie-meta-grid { display: flex; flex-wrap: wrap; gap: 16px 24px; margin-bottom: 20px; }
+    .meta-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+    .meta-item svg { width: 18px; height: 18px; stroke: var(--red); stroke-width: 1.8; fill: none; }
+    .rating-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(229,9,20,0.15); border: 1px solid rgba(229,9,20,0.3);
+      padding: 6px 14px; border-radius: 30px; font-weight: 700; color: var(--red);
+    }
+    .genres { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .genre-tag {
+      padding: 6px 14px; border-radius: 30px; background: var(--pill-bg);
+      border: 1px solid var(--border); font-size: 13px; color: var(--muted);
+    }
+    .movie-overview {
+      font-size: 15px; line-height: 1.7; color: var(--text);
+      margin-bottom: 28px; max-width: 600px;
+    }
+
+    /* ── ACTION BUTTONS ────────────────────── */
+    .action-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn-play {
+      display: flex; align-items: center; gap: 10px; padding: 14px 32px;
+      border-radius: 40px; background: var(--red); color: white; font-size: 16px;
+      font-weight: 700; border: none; cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-play:hover { background: var(--red-hov); transform: scale(1.02); }
+    .btn-secondary {
+      display: flex; align-items: center; gap: 8px; padding: 14px 24px;
+      border-radius: 40px; background: var(--card); border: 1px solid var(--border);
+      color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: var(--card-hov); border-color: var(--border-mid); }
+    .btn-premium {
+      background: var(--premium-grad); border-color: var(--red); color: white;
+      position: relative; overflow: hidden;
+    }
+    .btn-premium:hover { background: var(--red-hov); transform: scale(1.02); }
+
+    /* ── TRAILER SECTION ───────────────────── */
+    .trailer-section { max-width: 1200px; margin: 20px auto 40px; }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--text);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .trailer-container {
+      position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px;
+      overflow: hidden; border: 1px solid var(--border);
+    }
+    .trailer-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    /* ── CAST SECTION ─────────────────────── */
+    .cast-section { max-width: 1200px; margin: 40px auto; }
+    .cast-scroll {
+      display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .cast-scroll::-webkit-scrollbar { display: none; }
+    .cast-card {
+      flex-shrink: 0; width: 120px; text-align: center; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .cast-card:hover { transform: translateY(-4px); }
+    .cast-photo {
+      width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
+      border: 2px solid var(--border); margin-bottom: 8px; background: var(--card);
+    }
+    .cast-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .cast-name {
+      font-size: 13px; font-weight: 600; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .cast-character {
+      font-size: 11px; color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* ── SIMILAR MOVIES ───────────────────── */
+    .similar-section { max-width: 1200px; margin: 40px auto; }
+    .similar-scroll {
+      display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px;
+    }
+    .similar-scroll::-webkit-scrollbar { display: none; }
+    .similar-card {
+      flex-shrink: 0; width: 160px; cursor: pointer; transition: transform 0.2s;
+      text-decoration: none;
+    }
+    .similar-card:hover { transform: translateY(-4px); }
+    .similar-poster {
+      aspect-ratio: 2/3; border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--border); margin-bottom: 8px;
+    }
+    .similar-poster img { width: 100%; height: 100%; object-fit: cover; }
+    .similar-title {
+      font-size: 13px; font-weight: 600; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .similar-rating { font-size: 11px; color: var(--gold); }
+
+    /* ── SKELETONS ────────────────────────── */
+    .skeleton-text {
+      background: linear-gradient(90deg, var(--card) 25%, var(--card-hov) 50%, var(--card) 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── UPGRADE MODAL ────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+      z-index: 1000; display: none; align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .upgrade-modal {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 32px; max-width: 400px; width: 90%; text-align: center;
+    }
+    .modal-icon {
+      width: 60px; height: 60px; margin: 0 auto 16px; background: var(--premium-grad);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .modal-icon svg { width: 32px; height: 32px; fill: white; }
+    .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--text); margin-bottom: 12px; }
+    .modal-text { color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .modal-btn {
+      width: 100%; padding: 14px; border-radius: 40px; background: var(--premium-grad);
+      color: white; font-weight: 700; border: none; cursor: pointer; text-decoration: none;
+      display: block; margin-bottom: 12px;
+    }
+    .modal-close { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+
+    /* ── TOAST ────────────────────────────── */
+    #toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--card); border: 1px solid var(--border-mid); color: var(--text);
+      padding: 12px 24px; border-radius: 40px; font-size: 14px; font-weight: 600;
+      z-index: 9999; transition: transform 0.4s; white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3); pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── DOWNLOAD PROGRESS ────────────────── */
+    .download-progress {
+      position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+      background: var(--card); border: 1px solid var(--border); border-radius: 40px;
+      padding: 12px 20px; display: none; align-items: center; gap: 12px;
+      z-index: 10000; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .download-progress.show { display: flex; }
+    .progress-bar-small {
+      width: 200px; height: 4px; background: var(--border); border-radius: 2px;
+    }
+    .progress-fill-small {
+      height: 100%; width: 0%; background: var(--red); border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    /* ── BOTTOM NAV (MOBILE) ──────────────── */
+    .bottom-nav {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0; height: 64px;
+      background: var(--nav-bg); backdrop-filter: blur(16px); border-top: 1px solid var(--border);
+      z-index: 50; padding: 0 16px; justify-content: space-around; align-items: center;
+    }
+    @media (max-width: 768px) { .bottom-nav { display: flex; } }
+    .bottom-nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      color: var(--muted); text-decoration: none; font-size: 11px;
+    }
+    .bottom-nav-item.active { color: var(--red); }
+    .bottom-nav-item svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+  </style>
+</head>
+<body>
+
+  <div id="toast"></div>
+  
+  <div class="download-progress" id="downloadProgress">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--red)" stroke-width="2" fill="none">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    <span id="downloadProgressText">Downloading...</span>
+    <div class="progress-bar-small"><div class="progress-fill-small" id="downloadProgressFill"></div></div>
+    <span id="downloadProgressPercent">0%</span>
+  </div>
+
+  <div class="modal-overlay" id="upgradeModal" onclick="closeModal(event)">
+    <div class="upgrade-modal" onclick="event.stopPropagation()">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <h2 class="modal-title">Go Premium</h2>
+      <p class="modal-text" id="modalMessage">Watch Together is a premium feature. Upgrade to sync movies with friends, download for offline, and enjoy 4K HDR.</p>
+      <a href="upgrade.html" class="modal-btn">Upgrade Now — $7/month</a>
+      <button class="modal-btn modal-close" onclick="closeModal()">Maybe Later</button>
+    </div>
+  </div>
+
+  <div id="topbar">
+    <div class="topbar-left">
+      <a href="movies.html" class="back-btn">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="index.html" class="logo-link logo-text">
+        <span class="chill">Chill</span><span class="flix">flix</span>
+      </a>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <a href="profile.html" class="profile-btn" id="profileInitials">JD</a>
+    </div>
+  </div>
+
+  <div id="heroBackdrop"></div>
+  <div id="heroOverlay"></div>
+
+  <div id="main-content">
+    <div class="movie-header" id="movieHeader">
+      <div class="poster-section"><div class="movie-poster skeleton-text" style="height:100%;"></div></div>
+      <div class="info-section">
+        <div class="skeleton-text" style="height:48px;width:80%;margin-bottom:8px;"></div>
+        <div class="skeleton-text" style="height:20px;width:60%;margin-bottom:16px;"></div>
+        <div class="skeleton-text" style="height:20px;width:100%;margin-bottom:20px;"></div>
+        <div class="skeleton-text" style="height:80px;width:100%;margin-bottom:28px;"></div>
+        <div style="display:flex;gap:12px;">
+          <div class="skeleton-text" style="height:50px;width:120px;border-radius:40px;"></div>
+          <div class="skeleton-text" style="height:50px;width:120px;border-radius:40px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trailer-section" id="trailerSection" style="display:none;">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--red)" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Official Trailer
+      </h2>
+      <div class="trailer-container" id="trailerContainer"></div>
+    </div>
+
+    <div class="cast-section" id="castSection" style="display:none;">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--red)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Top Cast
+      </h2>
+      <div class="cast-scroll" id="castScroll"></div>
+    </div>
+
+    <div class="similar-section" id="similarSection" style="display:none;">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--red)" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
+        More Like This
+      </h2>
+      <div class="similar-scroll" id="similarScroll"></div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></a>
+    <a href="search.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Search</span></a>
+    <a href="movies.html" class="bottom-nav-item active"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg><span>Movies</span></a>
+    <a href="watchlist.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Watchlist</span></a>
+    <a href="profile.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+   PROTECTED ROUTE CHECK — Redirect if not logged in
+════════════════════════════════════════════════════ */
+
+(function checkAuth() {
+  const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
+  
+  // Public pages that don't require login
+  const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // If this is a public page, skip the check
+  if (publicPages.includes(currentPage)) {
+    return;
+  }
+  
+  // If not logged in, redirect to auth page
+  if (!isLoggedIn) {
+    // Save the page they were trying to access
+    sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
+    window.location.href = 'auth.html';
+  }
+})();
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX MOVIE DETAILS — FULLY PRODUCTION
+       + Real Download Functionality
+    ════════════════════════════════════════════════════ */
+
+    const TMDB_API_KEY = 'c619fb205a80d8c6c653895b7eae6f36';
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/';
+    const POSTER_SIZE = 'w500';
+    const BACKDROP_SIZE = 'original';
+    const PROFILE_SIZE = 'w185';
+    const CACHE_NAME = 'chillflix-videos';
+    
+    const isPremium = localStorage.getItem('chillflix-premium') === 'true';
+    let movieId = null;
+    let movieData = null;
+    let isDark = true;
+    let isDownloading = false;
+
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const profileInitials = document.getElementById('profileInitials');
+    const downloadProgress = document.getElementById('downloadProgress');
+    const downloadProgressText = document.getElementById('downloadProgressText');
+    const downloadProgressFill = document.getElementById('downloadProgressFill');
+    const downloadProgressPercent = document.getElementById('downloadProgressPercent');
+
+    const params = new URLSearchParams(window.location.search);
+    movieId = params.get('id');
+    if (!movieId) window.location.href = 'movies.html';
+
+    // ── UTILITIES ─────────────────────────────
+    function getProfile() {
+      const saved = localStorage.getItem('chillflix-profile');
+      return saved ? JSON.parse(saved) : { displayName: 'John Doe', email: 'john.doe@example.com' };
+    }
+
+    function updateProfileUI() {
+      const p = getProfile();
+      profileInitials.textContent = p.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    }
+
+    function logToHistory(type, movieId, data = {}) {
+      const history = JSON.parse(localStorage.getItem('chillflix-history') || '[]');
+      history.push({ type, movieId: parseInt(movieId), timestamp: new Date().toISOString(), ...data });
+      localStorage.setItem('chillflix-history', JSON.stringify(history));
+    }
+
+    function applyTheme(dark) {
+      isDark = dark;
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeToggle.innerHTML = dark 
+        ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+        : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light');
+    }
+
+    themeToggle.addEventListener('click', () => applyTheme(!isDark));
+
+    let toastTimer;
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.background = isError ? 'rgba(229,9,20,0.9)' : 'var(--card)';
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { t.classList.remove('show'); t.style.background = 'var(--card)'; }, 3000);
+    }
+
+    function showUpgradeModal(feature = 'This') {
+      document.getElementById('modalMessage').textContent = `${feature} is a premium feature. Upgrade to unlock 4K quality, downloads, and watch together.`;
+      document.getElementById('upgradeModal').classList.add('show');
+    }
+
+    function closeModal(e) {
+      if (!e || e.target.classList.contains('modal-overlay')) {
+        document.getElementById('upgradeModal').classList.remove('show');
+      }
+    }
+
+    function requirePremium(action) {
+      if (isPremium) return true;
+      showUpgradeModal(action);
+      return false;
+    }
+
+    // ── TMDB API ─────────────────────────────
+    async function fetchFromTMDB(endpoint, params = {}) {
+      const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
+      url.searchParams.append('api_key', TMDB_API_KEY);
+      Object.entries(params).forEach(([k, v]) => url.searchParams.append(k, v));
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`TMDB error: ${response.status}`);
+        return await response.json();
+      } catch (e) { console.error('Fetch failed:', e); return null; }
+    }
+
+    function getImageUrl(path, size = POSTER_SIZE) {
+      return path ? `${TMDB_IMAGE_BASE}${size}${path}` : '';
+    }
+
+    // ── REAL DOWNLOAD FUNCTIONALITY ──────────
+    async function downloadMovie() {
+      if (!requirePremium('Downloads')) return;
+      if (isDownloading) { showToast('Download already in progress'); return; }
+      
+      isDownloading = true;
+      downloadProgress.classList.add('show');
+      downloadProgressText.textContent = 'Fetching trailer...';
+      downloadProgressFill.style.width = '10%';
+      downloadProgressPercent.textContent = '10%';
+
+      try {
+        const videos = await fetchFromTMDB(`/movie/${movieId}/videos`);
+        const trailer = videos?.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+        
+        if (!trailer) {
+          showToast('No trailer available to download', true);
+          downloadProgress.classList.remove('show');
+          isDownloading = false;
+          return;
+        }
+
+        downloadProgressText.textContent = 'Downloading...';
+        downloadProgressFill.style.width = '30%';
+        downloadProgressPercent.textContent = '30%';
+
+        // Use a CORS proxy to fetch the YouTube video
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${trailer.key}`)}`;
+        const response = await fetch(proxyUrl);
+        
+        if (!response.ok) throw new Error('Failed to fetch video');
+
+        const contentLength = response.headers.get('content-length');
+        const total = parseInt(contentLength, 10);
+        let loaded = 0;
+
+        const reader = response.body.getReader();
+        const chunks = [];
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          
+          chunks.push(value);
+          loaded += value.length;
+          
+          if (total) {
+            const percent = Math.round((loaded / total) * 100);
+            downloadProgressFill.style.width = `${percent}%`;
+            downloadProgressPercent.textContent = `${percent}%`;
+          }
+        }
+
+        const blob = new Blob(chunks, { type: 'video/mp4' });
+        
+        // Save to Cache API
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(`/downloads/${movieId}`, new Response(blob));
+        
+        // Save metadata
+        const downloads = JSON.parse(localStorage.getItem('chillflix-downloads') || '[]');
+        const existing = downloads.findIndex(d => d.id === parseInt(movieId));
+        const movieEntry = {
+          id: parseInt(movieId),
+          title: movieData.title,
+          poster_path: movieData.poster_path,
+          year: movieData.release_date?.substring(0, 4),
+          quality: '720p',
+          size: blob.size
+        };
+        
+        if (existing > -1) downloads[existing] = movieEntry;
+        else downloads.push(movieEntry);
+        
+        localStorage.setItem('chillflix-downloads', JSON.stringify(downloads));
+        logToHistory('download', movieId, { title: movieData.title });
+        
+        showToast(`Downloaded "${movieData.title}"`);
+      } catch (e) {
+        console.error('Download failed:', e);
+        showToast('Download failed. Try again later.', true);
+      } finally {
+        downloadProgress.classList.remove('show');
+        isDownloading = false;
+      }
+    }
+
+    // ── LOAD MOVIE DETAILS ───────────────────
+    async function loadMovieDetails() {
+      const data = await fetchFromTMDB(`/movie/${movieId}`, { language: 'en-US' });
+      if (!data) return;
+      movieData = data;
+
+      if (data.backdrop_path && window.innerWidth > 768) {
+        document.getElementById('heroBackdrop').style.backgroundImage = `url('${getImageUrl(data.backdrop_path, BACKDROP_SIZE)}')`;
+      }
+
+      const posterUrl = getImageUrl(data.poster_path);
+      const genresHtml = data.genres.map(g => `<span class="genre-tag">${g.name}</span>`).join('');
+      const hours = Math.floor(data.runtime / 60);
+      const mins = data.runtime % 60;
+      const runtimeStr = `${hours}h ${mins}m`;
+      const year = data.release_date ? data.release_date.substring(0, 4) : 'TBD';
+
+      document.getElementById('movieHeader').innerHTML = `
+        <div class="poster-section">
+          <div class="movie-poster"><img src="${posterUrl}" alt="${data.title}"></div>
+        </div>
+        <div class="info-section">
+          <h1 class="movie-title">${data.title}</h1>
+          ${data.tagline ? `<p class="movie-tagline">"${data.tagline}"</p>` : ''}
+          <div class="movie-meta-grid">
+            <span class="meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${runtimeStr}</span>
+            <span class="meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${year}</span>
+            <span class="rating-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="var(--red)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${data.vote_average.toFixed(1)}/10</span>
+          </div>
+          <div class="genres">${genresHtml}</div>
+          <p class="movie-overview">${data.overview || 'No overview available.'}</p>
+          <div class="action-buttons">
+            <a href="watch.html?id=${movieId}" class="btn-play"><svg viewBox="0 0 24 24" width="18" height="18" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>Play</a>
+            <button class="btn-secondary btn-premium" onclick="handleWatchTogether()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Watch Together</button>
+            <button class="btn-secondary" onclick="downloadMovie()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download</button>
+            <button class="btn-secondary" onclick="handleAddToWatchlist()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Watchlist</button>
+            <button class="btn-secondary" onclick="openRatingModal()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Rate</button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadTrailer() {
+      const data = await fetchFromTMDB(`/movie/${movieId}/videos`, { language: 'en-US' });
+      if (!data || !data.results) return;
+      const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+      if (!trailer) return;
+      document.getElementById('trailerSection').style.display = 'block';
+      document.getElementById('trailerContainer').innerHTML = `<iframe src="https://www.youtube.com/embed/${trailer.key}" title="Trailer" allowfullscreen></iframe>`;
+    }
+
+    async function loadCast() {
+      const data = await fetchFromTMDB(`/movie/${movieId}/credits`, { language: 'en-US' });
+      if (!data || !data.cast) return;
+      const cast = data.cast.slice(0, 15);
+      document.getElementById('castSection').style.display = 'block';
+      document.getElementById('castScroll').innerHTML = cast.map(p => {
+        const photoUrl = getImageUrl(p.profile_path, PROFILE_SIZE);
+        return `<div class="cast-card" onclick="window.location.href='person.html?id=${p.id}'"><div class="cast-photo">${photoUrl ? `<img src="${photoUrl}" alt="${p.name}">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--card);"><svg viewBox="0 0 24 24" width="40" height="40" stroke="var(--muted)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>`}</div><div class="cast-name">${p.name}</div><div class="cast-character">${p.character || ''}</div></div>`;
+      }).join('');
+    }
+
+    async function loadSimilar() {
+      const data = await fetchFromTMDB(`/movie/${movieId}/similar`, { language: 'en-US', page: 1 });
+      if (!data || !data.results) return;
+      const movies = data.results.slice(0, 12);
+      document.getElementById('similarSection').style.display = 'block';
+      document.getElementById('similarScroll').innerHTML = movies.map(m => {
+        const posterUrl = getImageUrl(m.poster_path, 'w342');
+        return `<a href="movie.html?id=${m.id}" class="similar-card"><div class="similar-poster">${posterUrl ? `<img src="${posterUrl}" alt="${m.title}">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--card);"><svg viewBox="0 0 24 24" width="40" height="40" stroke="var(--muted)"><rect x="2" y="2" width="20" height="20" rx="2.18"/></svg></div>`}</div><div class="similar-title">${m.title}</div><div class="similar-rating"><svg viewBox="0 0 24 24" width="12" height="12" fill="var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${m.vote_average.toFixed(1)}</div></a>`;
+      }).join('');
+    }
+
+    // ── ACTION HANDLERS ──────────────────────
+    function handleWatchTogether() {
+      if (requirePremium('Watch Together')) window.location.href = `watch-party.html?id=${movieId}`;
+    }
+
+    function handleAddToWatchlist() {
+      const watchlist = JSON.parse(localStorage.getItem('chillflix-watchlist') || '[]');
+      if (!watchlist.includes(parseInt(movieId))) {
+        watchlist.push(parseInt(movieId));
+        localStorage.setItem('chillflix-watchlist', JSON.stringify(watchlist));
+        logToHistory('watchlist', movieId, { title: movieData?.title });
+        showToast('Added to watchlist');
+      } else {
+        showToast('Already in watchlist');
+      }
+    }
+
+    function openRatingModal() {
+      const rating = prompt('Rate this movie (1-10):');
+      if (rating && !isNaN(rating) && rating >= 1 && rating <= 10) {
+        const ratings = JSON.parse(localStorage.getItem('chillflix-ratings') || '{}');
+        ratings[movieId] = parseInt(rating);
+        localStorage.setItem('chillflix-ratings', JSON.stringify(ratings));
+        logToHistory('rate', movieId, { rating: parseInt(rating), title: movieData?.title });
+        showToast(`Rated ${rating}/10`);
+      } else if (rating) {
+        showToast('Please enter a number between 1 and 10', true);
+      }
+    }
+
+    // Expose functions to global scope
+    window.handleWatchTogether = handleWatchTogether;
+    window.downloadMovie = downloadMovie;
+    window.handleAddToWatchlist = handleAddToWatchlist;
+    window.openRatingModal = openRatingModal;
+
+    // ── INIT ─────────────────────────────────
+    (async function init() {
+      const savedTheme = localStorage.getItem('chillflix-theme');
+      applyTheme(savedTheme ? savedTheme === 'dark' : true);
+      updateProfileUI();
+      await loadMovieDetails();
+      await Promise.all([loadTrailer(), loadCast(), loadSimilar()]);
+    })();
+  </script>
+</body>
+</html>

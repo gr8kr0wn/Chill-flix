@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chillflix — Page Not Found</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎬</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- ═══════════════════════════════════════════════════
+     CHILLFLIX SEO META TAGS + PWA
+════════════════════════════════════════════════════ -->
+<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
+<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+<meta name="author" content="Chillflix" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="theme-color" content="#e50914" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Chillflix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chillflix.app/" />
+<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://chillflix.app/" />
+<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('[PWA] Service Worker registered'))
+        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+    });
+  }
+</script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX 404 — PRODUCTION READY
+    ════════════════════════════════════════════════════ */
+
+    :root,
+    [data-theme="dark"] {
+      --bg:         #0a0a0f;
+      --surface:    #0e0e18;
+      --card:       #141420;
+      --card-hov:   #1c1c2e;
+      --border:     rgba(255,255,255,0.09);
+      --border-mid: rgba(255,255,255,0.15);
+      --text:       #ffffff;
+      --muted:      #8a8aaa;
+      --muted2:     rgba(255,255,255,0.35);
+      --red:        #e50914;
+      --red-hov:    #f40612;
+      --nav-bg:     rgba(10,10,15,0.92);
+      --logo-chill: #ffffff;
+    }
+
+    [data-theme="light"] {
+      --bg:         #f5f5f8;
+      --surface:    #ebebf2;
+      --card:       #ffffff;
+      --card-hov:   #f0f0f7;
+      --border:     rgba(0,0,0,0.10);
+      --border-mid: rgba(0,0,0,0.18);
+      --text:       #0f0f1a;
+      --muted:      #6b6b85;
+      --muted2:     rgba(15,15,26,0.40);
+      --red:        #e50914;
+      --red-hov:    #c00710;
+      --nav-bg:     rgba(245,245,248,0.92);
+      --logo-chill: #0f0f1a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', 'Impact', sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+
+    /* ── NAVBAR ─────────────────────────────── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    .nav-logo {
+      font-size: 28px;
+      text-decoration: none;
+    }
+    .nav-logo .chill { color: var(--logo-chill); transition: color 0.4s; }
+    .nav-logo .flix  { color: var(--red); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--red); }
+
+    .theme-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); }
+    .theme-btn svg {
+      width: 20px; height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* ── MAIN CONTENT ───────────────────────── */
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 64px;
+      padding: 40px 24px;
+    }
+
+    .error-container {
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .error-code {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(80px, 15vw, 140px);
+      line-height: 1;
+      color: var(--red);
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .error-icon {
+      margin-bottom: 24px;
+    }
+
+    .error-icon svg {
+      width: 80px; height: 80px;
+      stroke: var(--red);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .error-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 5vw, 40px);
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .error-message {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .error-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 40px;
+      background: var(--red);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--red-hov);
+      transform: translateY(-2px);
+    }
+    .btn-primary svg {
+      width: 18px; height: 18px;
+      fill: white;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 40px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: var(--card);
+      border-color: var(--border-mid);
+    }
+    .btn-secondary svg {
+      width: 18px; height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* ── SUGGESTED LINKS ───────────────────── */
+    .suggested-links {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .suggested-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .link-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .suggested-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .suggested-link:hover { color: var(--red); }
+
+    /* ── FOOTER ────────────────────────────── */
+    .footer {
+      padding: 20px 32px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 768px) {
+      #navbar { padding: 0 20px; }
+      .nav-links { display: none; }
+      .main-content { padding: 24px 16px; }
+      .error-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-secondary { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ─────────────────────────────── -->
+  <nav id="navbar">
+    <a href="index.html" class="logo-text nav-logo">
+      <span class="chill">Chill</span><span class="flix">flix</span>
+    </a>
+    <div class="nav-links">
+      <a href="movies.html" class="nav-link">Movies</a>
+      <a href="watchlist.html" class="nav-link">Watchlist</a>
+      <a href="settings.html" class="nav-link">Settings</a>
+    </div>
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </nav>
+
+  <!-- ── MAIN CONTENT ───────────────────────── -->
+  <div class="main-content">
+    <div class="error-container">
+      <div class="error-code">404</div>
+      <div class="error-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="2" width="20" height="20" rx="2.18" />
+          <line x1="8" y1="2" x2="8" y2="22" />
+          <line x1="16" y1="2" x2="16" y2="22" />
+          <line x1="2" y1="8" x2="22" y2="8" />
+          <line x1="2" y1="16" x2="22" y2="16" />
+          <circle cx="12" cy="12" r="3" fill="var(--red)" stroke="none" />
+        </svg>
+      </div>
+      <h1 class="error-title">Lost Your Way?</h1>
+      <p class="error-message">
+        Sorry, we can't find the page you're looking for.<br>
+        It might have been moved, deleted, or never existed.
+      </p>
+      <div class="error-actions">
+        <a href="index.html" class="btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Back to Home
+        </a>
+        <a href="movies.html" class="btn-secondary">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
+          Browse Movies
+        </a>
+      </div>
+
+      <div class="suggested-links">
+        <p class="suggested-title">You might be looking for</p>
+        <div class="link-grid">
+          <a href="index.html" class="suggested-link">Home</a>
+          <a href="movies.html" class="suggested-link">Movies</a>
+          <a href="watchlist.html" class="suggested-link">Watchlist</a>
+          <a href="profile.html" class="suggested-link">Profile</a>
+          <a href="settings.html" class="suggested-link">Settings</a>
+          <a href="upgrade.html" class="suggested-link">Premium</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ────────────────────────────── -->
+  <footer class="footer">
+    <span>© 2025 Chillflix. All rights reserved.</span>
+  </footer>
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+   PROTECTED ROUTE CHECK — Redirect if not logged in
+════════════════════════════════════════════════════ */
+
+(function checkAuth() {
+  const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
+  
+  // Public pages that don't require login
+  const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // If this is a public page, skip the check
+  if (publicPages.includes(currentPage)) {
+    return;
+  }
+  
+  // If not logged in, redirect to auth page
+  if (!isLoggedIn) {
+    // Save the page they were trying to access
+    sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
+    window.location.href = 'auth.html';
+  }
+})();
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX 404 — THEME SYNC
+    ════════════════════════════════════════════════════ */
+
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    let isDark = true;
+
+    function applyTheme(dark) {
+      isDark = dark;
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeToggle.innerHTML = dark 
+        ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+        : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light');
+    }
+
+    themeToggle.addEventListener('click', () => applyTheme(!isDark));
+
+    // Auto-redirect if on GitHub Pages 404
+    (function checkRedirect() {
+      const path = window.location.pathname;
+      const search = window.location.search;
+      const hash = window.location.hash;
+      
+      // If this is a SPA route (like /movies or /watchlist), try to redirect
+      const routes = ['movies', 'watchlist', 'settings', 'profile', 'upgrade', 'search', 'history', 'downloads', 'watch-party', 'person'];
+      const firstPart = path.split('/')[1]?.split('.')[0];
+      
+      if (routes.includes(firstPart)) {
+        // Attempt to load the actual page
+        window.location.href = `/${firstPart}.html${search}${hash}`;
+      }
+    })();
+
+    (function init() {
+      const savedTheme = localStorage.getItem('chillflix-theme');
+      applyTheme(savedTheme ? savedTheme === 'dark' : true);
+    })();
+  </script>
+</body>
+</html>

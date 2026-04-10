@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Chillflix — Watch Party</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎬</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://image.tmdb.org" />
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- ═══════════════════════════════════════════════════
+     CHILLFLIX SEO META TAGS + PWA
+════════════════════════════════════════════════════ -->
+<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
+<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+<meta name="author" content="Chillflix" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="theme-color" content="#e50914" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Chillflix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chillflix.app/" />
+<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://chillflix.app/" />
+<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('[PWA] Service Worker registered'))
+        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+    });
+  }
+</script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX WATCH PARTY — PRODUCTION READY
+       Room creation + Chat + Emojis + Reactions
+       Icons only (no emojis in UI)
+    ════════════════════════════════════════════════════ */
+
+    :root, [data-theme="dark"] {
+      --bg: #0a0a0f; --surface: #0e0e18; --card: #141420; --card-hov: #1c1c2e;
+      --border: rgba(255,255,255,0.09); --border-mid: rgba(255,255,255,0.15);
+      --text: #ffffff; --muted: #8a8aaa; --muted2: rgba(255,255,255,0.35);
+      --red: #e50914; --red-hov: #f40612; --nav-bg: rgba(10,10,15,0.92);
+      --logo-chill: #ffffff; --bottom-nav-bg: rgba(10,10,15,0.95);
+      --gold: #fbbf24; --success: #22c55e; --chat-bg: #0d0d14;
+      --message-sent: var(--red); --message-received: var(--card);
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f5f8; --surface: #ebebf2; --card: #ffffff; --card-hov: #f0f0f7;
+      --border: rgba(0,0,0,0.10); --border-mid: rgba(0,0,0,0.18);
+      --text: #0f0f1a; --muted: #6b6b85; --muted2: rgba(15,15,26,0.40);
+      --red: #e50914; --red-hov: #c00710; --nav-bg: rgba(245,245,248,0.92);
+      --logo-chill: #0f0f1a; --bottom-nav-bg: rgba(245,245,248,0.95);
+      --gold: #d97706; --success: #16a34a; --chat-bg: #f0f0f5;
+      --message-sent: var(--red); --message-received: var(--card);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg);
+      color: var(--text); min-height: 100vh; transition: background 0.4s, color 0.4s;
+      overflow-x: hidden;
+    }
+    .logo-text { font-family: 'Bebas Neue', 'Impact', sans-serif; letter-spacing: 0.02em; line-height: 1; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+
+    #topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 60px;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+      background: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .back-btn {
+      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; color: var(--text); background: transparent;
+      border: none; transition: background 0.2s; text-decoration: none;
+    }
+    .back-btn:hover { background: var(--card); }
+    .back-btn svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .logo-link { font-size: 24px; text-decoration: none; } .logo-link .chill { color: var(--logo-chill); } .logo-link .flix { color: var(--red); }
+    .room-info { display: flex; align-items: center; gap: 12px; margin-left: 20px; }
+    .room-badge {
+      display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 30px;
+      background: var(--success); color: white; font-size: 13px; font-weight: 600;
+    }
+    .viewers { font-size: 13px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .theme-btn {
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+      background: transparent; color: var(--text); cursor: pointer; display: flex;
+      align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); }
+    .theme-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .profile-btn {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: white;
+      font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none; transition: background 0.2s; text-decoration: none;
+    }
+    .profile-btn:hover { background: var(--red-hov); }
+
+    /* Main Layout */
+    .party-layout {
+      display: flex; margin-top: 60px; height: calc(100vh - 60px);
+    }
+    @media (max-width: 768px) { .party-layout { flex-direction: column; height: auto; } }
+
+    /* Video Section */
+    .video-section { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .player-container {
+      position: relative; width: 100%; padding-bottom: 56.25%; background: #000;
+    }
+    #youtubePlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .player-overlay {
+      position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column;
+      justify-content: flex-end; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 30%);
+      opacity: 1; transition: opacity 0.3s; cursor: pointer;
+    }
+    .player-overlay.idle { opacity: 0; pointer-events: none; }
+    .center-play-btn {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 80px; height: 80px; border-radius: 50%; background: rgba(229,9,20,0.9);
+      border: none; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform 0.2s; z-index: 20;
+    }
+    .center-play-btn:hover { transform: translate(-50%, -50%) scale(1.1); background: var(--red); }
+    .center-play-btn svg { width: 40px; height: 40px; fill: white; margin-left: 4px; }
+
+    .controls-bar { padding: 20px; padding-top: 40px; }
+    .progress-container { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .time-current, .time-duration {
+      font-size: 13px; color: rgba(255,255,255,0.8); font-variant-numeric: tabular-nums; min-width: 45px;
+    }
+    .progress-bar-wrapper {
+      flex: 1; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px;
+      cursor: pointer; position: relative;
+    }
+    .progress-bar {
+      width: 0%; height: 100%; background: var(--red); border-radius: 2px;
+      position: relative; transition: width 0.1s;
+    }
+    .controls-row { display: flex; align-items: center; justify-content: space-between; }
+    .controls-left, .controls-right { display: flex; align-items: center; gap: 12px; }
+    .control-btn {
+      background: transparent; border: none; color: white; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;
+      border-radius: 50%; transition: background 0.2s;
+    }
+    .control-btn:hover { background: rgba(255,255,255,0.1); }
+    .control-btn svg { width: 22px; height: 22px; fill: currentColor; }
+
+    .sync-btn {
+      display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 30px;
+      background: var(--success); color: white; border: none; font-weight: 600; cursor: pointer;
+    }
+
+    /* Right Panel */
+    .right-panel {
+      width: 320px; min-width: 320px; border-left: 1px solid var(--border);
+      display: flex; flex-direction: column; background: var(--surface);
+    }
+    @media (max-width: 768px) { .right-panel { width: 100%; min-width: 100%; border-left: none; border-top: 1px solid var(--border); height: 400px; } }
+
+    /* Participants */
+    .participants {
+      padding: 16px; border-bottom: 1px solid var(--border);
+    }
+    .panel-title {
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--muted); margin-bottom: 12px; display: flex; justify-content: space-between;
+    }
+    .participant-list { display: flex; flex-direction: column; gap: 8px; }
+    .participant {
+      display: flex; align-items: center; gap: 10px; padding: 6px 0;
+    }
+    .participant-avatar {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--red);
+      display: flex; align-items: center; justify-content: center; color: white;
+      font-weight: 700; font-size: 12px; flex-shrink: 0; position: relative;
+    }
+    .host-crown {
+      position: absolute; top: -6px; right: -6px; background: var(--gold);
+      border-radius: 50%; width: 16px; height: 16px; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .host-crown svg { width: 10px; height: 10px; fill: #0a0a0f; }
+    .participant-name { font-size: 13px; color: var(--text); flex: 1; }
+    .participant-status { font-size: 11px; color: var(--success); }
+
+    /* Chat */
+    .chat-section { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    .chat-header {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px;
+      background: var(--chat-bg);
+    }
+    .message {
+      display: flex; gap: 10px; max-width: 85%;
+    }
+    .message.sent { align-self: flex-end; flex-direction: row-reverse; }
+    .message-avatar {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--red);
+      display: flex; align-items: center; justify-content: center; color: white;
+      font-size: 11px; font-weight: 700; flex-shrink: 0;
+    }
+    .message-bubble {
+      padding: 10px 14px; border-radius: 18px; font-size: 13px; line-height: 1.4;
+      word-break: break-word;
+    }
+    .message.received .message-bubble { background: var(--message-received); color: var(--text); border: 1px solid var(--border); }
+    .message.sent .message-bubble { background: var(--message-sent); color: white; }
+    .message-time { font-size: 10px; color: var(--muted2); margin-top: 4px; }
+
+    .chat-input-area {
+      padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px;
+      align-items: center;
+    }
+    .chat-input {
+      flex: 1; padding: 10px 14px; border-radius: 24px; background: var(--card);
+      border: 1px solid var(--border); color: var(--text); font-size: 13px; outline: none;
+    }
+    .emoji-btn, .send-btn {
+      width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; transition: background 0.2s;
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+    }
+    .emoji-btn:hover, .send-btn:hover { background: var(--card-hov); }
+    .send-btn { background: var(--red); border-color: var(--red); color: white; }
+    .send-btn:hover { background: var(--red-hov); }
+
+    /* Emoji Picker */
+    .emoji-picker {
+      position: absolute; bottom: 70px; right: 16px; width: 280px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 16px; padding: 12px; display: none;
+      grid-template-columns: repeat(8, 1fr); gap: 8px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .emoji-picker.show { display: grid; }
+    .emoji-item {
+      font-size: 24px; cursor: pointer; text-align: center; padding: 4px;
+      border-radius: 8px; transition: background 0.2s;
+    }
+    .emoji-item:hover { background: var(--pill-bg, rgba(255,255,255,0.1)); }
+
+    /* Reactions */
+    .reaction-bar {
+      display: flex; gap: 8px; padding: 8px 16px; border-top: 1px solid var(--border);
+    }
+    .reaction-btn {
+      padding: 6px 12px; border-radius: 30px; background: var(--card); border: 1px solid var(--border);
+      font-size: 18px; cursor: pointer; transition: all 0.2s;
+    }
+    .reaction-btn:hover { background: var(--card-hov); transform: scale(1.05); }
+
+    /* Floating Reactions */
+    .floating-reactions {
+      position: absolute; bottom: 100px; left: 0; right: 0; pointer-events: none; z-index: 50;
+    }
+    .floating-emoji {
+      position: absolute; font-size: 32px; animation: floatUp 2s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(0.5); }
+    }
+
+    /* Join/Create Screen */
+    .join-screen {
+      position: absolute; inset: 60px 0 0 0; background: var(--bg); z-index: 90;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .join-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+      padding: 40px; max-width: 450px; width: 90%; text-align: center;
+    }
+    .join-icon {
+      width: 80px; height: 80px; margin: 0 auto 20px; background: var(--premium-grad, linear-gradient(135deg, #e50914, #b30710));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .join-icon svg { width: 40px; height: 40px; fill: white; }
+    .join-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; margin-bottom: 12px; }
+    .join-text { color: var(--muted); margin-bottom: 28px; }
+    .join-input {
+      width: 100%; padding: 14px 18px; border-radius: 40px; background: var(--surface);
+      border: 1px solid var(--border); color: var(--text); font-size: 16px; text-align: center;
+      letter-spacing: 4px; margin-bottom: 16px; outline: none;
+    }
+    .join-input:focus { border-color: var(--red); }
+    .join-btn {
+      width: 100%; padding: 14px; border-radius: 40px; background: var(--red);
+      color: white; font-weight: 700; border: none; cursor: pointer; margin-bottom: 12px;
+    }
+    .create-btn {
+      width: 100%; padding: 14px; border-radius: 40px; background: transparent;
+      border: 1px solid var(--border); color: var(--text); font-weight: 600; cursor: pointer;
+    }
+
+    #toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--card); border: 1px solid var(--border-mid); color: var(--text);
+      padding: 12px 24px; border-radius: 40px; font-size: 14px; font-weight: 600;
+      z-index: 9999; transition: transform 0.4s; white-space: nowrap; pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    .loading-spinner {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: var(--red); border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    @media (max-width: 768px) {
+      .controls-left, .controls-right { gap: 4px; }
+      .control-btn { width: 44px; height: 44px; }
+      .sync-btn span { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="toast"></div>
+
+  <div id="topbar">
+    <div class="topbar-left">
+      <a href="movies.html" class="back-btn">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="index.html" class="logo-link logo-text">
+        <span class="chill">Chill</span><span class="flix">flix</span>
+      </a>
+      <div class="room-info" id="roomInfo" style="display:none;">
+        <div class="room-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="white"><circle cx="12" cy="12" r="10"/></svg>LIVE</div>
+        <span class="viewers" id="viewerCount">0 watching</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button class="profile-btn" id="profileInitials">JD</button>
+    </div>
+  </div>
+
+  <!-- Join/Create Screen -->
+  <div class="join-screen" id="joinScreen">
+    <div class="join-card">
+      <div class="join-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h2 class="join-title">Watch Together</h2>
+      <p class="join-text">Join an existing room or create a new one to watch with friends.</p>
+      <input type="text" class="join-input" id="roomCodeInput" placeholder="Enter room code" maxlength="6" />
+      <button class="join-btn" onclick="joinRoom()">Join Room</button>
+      <button class="create-btn" onclick="createRoom()">Create New Room</button>
+    </div>
+  </div>
+
+  <!-- Main Party Layout -->
+  <div class="party-layout" id="partyLayout" style="display:none;">
+    <div class="video-section">
+      <div class="player-container">
+        <div id="youtubePlayer"></div>
+        <div class="loading-spinner" id="playerLoader"></div>
+        <div class="player-overlay" id="playerOverlay">
+          <button class="center-play-btn" id="centerPlayBtn">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <div class="controls-bar">
+            <div class="progress-container">
+              <span class="time-current" id="currentTime">0:00</span>
+              <div class="progress-bar-wrapper" id="progressBarWrapper">
+                <div class="progress-bar" id="progressBar"></div>
+              </div>
+              <span class="time-duration" id="duration">0:00</span>
+            </div>
+            <div class="controls-row">
+              <div class="controls-left">
+                <button class="control-btn" id="playPauseBtn">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+                <button class="control-btn" onclick="seekVideo(-10)">
+                  <svg viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><rect x="5" y="5" width="2" height="14"/></svg>
+                </button>
+                <button class="control-btn" onclick="seekVideo(10)">
+                  <svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><rect x="17" y="5" width="2" height="14"/></svg>
+                </button>
+              </div>
+              <div class="controls-right">
+                <button class="sync-btn" onclick="syncAll()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M20 4L4 20"/><path d="M4 4l16 16"/></svg>
+                  <span>Sync All</span>
+                </button>
+                <button class="control-btn" id="fullscreenBtn">
+                  <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reaction-bar">
+        <button class="reaction-btn" onclick="sendReaction('😂')">😂</button>
+        <button class="reaction-btn" onclick="sendReaction('🔥')">🔥</button>
+        <button class="reaction-btn" onclick="sendReaction('😱')">😱</button>
+        <button class="reaction-btn" onclick="sendReaction('👍')">👍</button>
+        <button class="reaction-btn" onclick="sendReaction('❤️')">❤️</button>
+        <button class="reaction-btn" onclick="sendReaction('🎬')">🎬</button>
+      </div>
+      <div class="floating-reactions" id="floatingReactions"></div>
+    </div>
+
+    <div class="right-panel">
+      <div class="participants">
+        <div class="panel-title">
+          <span>Watching Now</span>
+          <span id="participantCount">0</span>
+        </div>
+        <div class="participant-list" id="participantList"></div>
+        <button class="sync-btn" style="margin-top:12px;width:100%;justify-content:center;" onclick="copyInviteLink()">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="white"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Copy Invite Link
+        </button>
+      </div>
+
+      <div class="chat-section">
+        <div class="chat-header">
+          <span style="font-weight:600;">Live Chat</span>
+          <span style="color:var(--muted);font-size:12px;" id="messageCount">0 messages</span>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+          <button class="emoji-btn" onclick="toggleEmojiPicker()">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/></svg>
+          </button>
+          <input type="text" class="chat-input" id="chatInput" placeholder="Send a message..." onkeypress="handleChatKeypress(event)" />
+          <button class="send-btn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+          <div class="emoji-picker" id="emojiPicker">
+            <div class="emoji-item" onclick="insertEmoji('😊')">😊</div><div class="emoji-item" onclick="insertEmoji('😂')">😂</div>
+            <div class="emoji-item" onclick="insertEmoji('❤️')">❤️</div><div class="emoji-item" onclick="insertEmoji('👍')">👍</div>
+            <div class="emoji-item" onclick="insertEmoji('🔥')">🔥</div><div class="emoji-item" onclick="insertEmoji('😭')">😭</div>
+            <div class="emoji-item" onclick="insertEmoji('😮')">😮</div><div class="emoji-item" onclick="insertEmoji('🙏')">🙏</div>
+            <div class="emoji-item" onclick="insertEmoji('👀')">👀</div><div class="emoji-item" onclick="insertEmoji('💯')">💯</div>
+            <div class="emoji-item" onclick="insertEmoji('🎬')">🎬</div><div class="emoji-item" onclick="insertEmoji('🍿')">🍿</div>
+            <div class="emoji-item" onclick="insertEmoji('😱')">😱</div><div class="emoji-item" onclick="insertEmoji('🤯')">🤯</div>
+            <div class="emoji-item" onclick="insertEmoji('😎')">😎</div><div class="emoji-item" onclick="insertEmoji('🥲')">🥲</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+   PROTECTED ROUTE CHECK — Redirect if not logged in
+════════════════════════════════════════════════════ */
+
+(function checkAuth() {
+  const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
+  
+  // Public pages that don't require login
+  const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // If this is a public page, skip the check
+  if (publicPages.includes(currentPage)) {
+    return;
+  }
+  
+  // If not logged in, redirect to auth page
+  if (!isLoggedIn) {
+    // Save the page they were trying to access
+    sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
+    window.location.href = 'auth.html';
+  }
+})();
+    const TMDB_API_KEY = 'c619fb205a80d8c6c653895b7eae6f36';
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    const DEFAULT_TRAILER = 'zSWdZVtXT7E';
+    const isPremium = localStorage.getItem('chillflix-premium') === 'true';
+
+    let movieId = null, player = null, isDark = true, playerReady = false;
+    let roomCode = null, isHost = false, userName = 'You';
+    let participants = [], messages = [];
+
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const joinScreen = document.getElementById('joinScreen');
+    const partyLayout = document.getElementById('partyLayout');
+    const roomInfo = document.getElementById('roomInfo');
+    const playerOverlay = document.getElementById('playerOverlay');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const centerPlayBtn = document.getElementById('centerPlayBtn');
+    const progressBar = document.getElementById('progressBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const playerLoader = document.getElementById('playerLoader');
+
+    const params = new URLSearchParams(window.location.search);
+    movieId = params.get('id') || '550';
+
+    function applyTheme(dark) {
+      isDark = dark;
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeToggle.innerHTML = dark ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light');
+    }
+    themeToggle.addEventListener('click', () => applyTheme(!isDark));
+
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function generateRoomCode() { return Math.random().toString(36).substring(2, 8).toUpperCase(); }
+
+    function createRoom() {
+      roomCode = generateRoomCode();
+      isHost = true;
+      participants = [{ name: 'You', isHost: true }];
+      showToast(`Room created: ${roomCode}`);
+      startParty();
+    }
+
+    function joinRoom() {
+      const input = document.getElementById('roomCodeInput').value.trim().toUpperCase();
+      if (!input) { showToast('Enter a room code'); return; }
+      roomCode = input;
+      isHost = false;
+      participants = [
+        { name: 'Host', isHost: true },
+        { name: 'You', isHost: false }
+      ];
+      showToast(`Joined room: ${roomCode}`);
+      startParty();
+    }
+
+    function startParty() {
+      joinScreen.style.display = 'none';
+      partyLayout.style.display = 'flex';
+      roomInfo.style.display = 'flex';
+      updateParticipants();
+      loadTrailer();
+      if (isPremium) {
+        addMockParticipants();
+      }
+    }
+
+    function addMockParticipants() {
+      setTimeout(() => {
+        participants.push({ name: 'Sarah', isHost: false });
+        participants.push({ name: 'Mike', isHost: false });
+        updateParticipants();
+        addMockMessage('Sarah', 'This movie is so good! 🔥');
+        setTimeout(() => addMockMessage('Mike', 'Wait for the next scene 👀'), 2000);
+        setTimeout(() => addMockMessage('Sarah', '😱😱😱'), 4000);
+      }, 1000);
+    }
+
+    function updateParticipants() {
+      document.getElementById('participantCount').textContent = participants.length;
+      document.getElementById('viewerCount').textContent = `${participants.length} watching`;
+      document.getElementById('participantList').innerHTML = participants.map(p => `
+        <div class="participant">
+          <div class="participant-avatar">
+            ${p.name.charAt(0)}
+            ${p.isHost ? '<span class="host-crown"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>' : ''}
+          </div>
+          <span class="participant-name">${p.name}</span>
+          <span class="participant-status">●</span>
+        </div>
+      `).join('');
+    }
+
+    function addMockMessage(sender, text) {
+      messages.push({ sender, text, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), isSent: sender === 'You' });
+      renderMessages();
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      messages.push({ sender: 'You', text, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), isSent: true });
+      renderMessages();
+      input.value = '';
+      if (messages.length === 1) {
+        setTimeout(() => addMockMessage('Sarah', 'Hey! 👋'), 1000);
+      }
+    }
+
+    function handleChatKeypress(e) { if (e.key === 'Enter') sendMessage(); }
+
+    function renderMessages() {
+      const container = document.getElementById('chatMessages');
+      document.getElementById('messageCount').textContent = `${messages.length} message${messages.length !== 1 ? 's' : ''}`;
+      container.innerHTML = messages.map(m => `
+        <div class="message ${m.isSent ? 'sent' : 'received'}">
+          <div class="message-avatar">${m.sender.charAt(0)}</div>
+          <div>
+            <div class="message-bubble">${m.text}</div>
+            <div class="message-time">${m.sender} · ${m.time}</div>
+          </div>
+        </div>
+      `).join('');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function toggleEmojiPicker() {
+      document.getElementById('emojiPicker').classList.toggle('show');
+    }
+
+    function insertEmoji(emoji) {
+      document.getElementById('chatInput').value += emoji;
+      document.getElementById('emojiPicker').classList.remove('show');
+    }
+
+    function sendReaction(emoji) {
+      const container = document.getElementById('floatingReactions');
+      const reaction = document.createElement('div');
+      reaction.className = 'floating-emoji';
+      reaction.textContent = emoji;
+      reaction.style.left = Math.random() * 80 + 10 + '%';
+      reaction.style.animation = 'floatUp 2s ease-out forwards';
+      container.appendChild(reaction);
+      setTimeout(() => reaction.remove(), 2000);
+      showToast(`Reacted with ${emoji}`);
+    }
+
+    function copyInviteLink() {
+      const link = `${window.location.origin}${window.location.pathname}?room=${roomCode}`;
+      navigator.clipboard?.writeText(link).then(() => showToast('Invite link copied!'));
+    }
+
+    function syncAll() {
+      if (!isHost && !isPremium) { showToast('Only the host can sync'); return; }
+      showToast('Syncing all viewers...');
+    }
+
+    async function fetchTrailer() {
+      const res = await fetch(`${TMDB_BASE_URL}/movie/${movieId}/videos?api_key=${TMDB_API_KEY}`);
+      const data = await res.json();
+      const trailer = data.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+      return trailer?.key || DEFAULT_TRAILER;
+    }
+
+    async function loadTrailer() {
+      const videoId = await fetchTrailer();
+      if (!window.YT) {
+        const tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+        window.onYouTubeIframeAPIReady = () => createPlayer(videoId);
+      } else { createPlayer(videoId); }
+    }
+
+    function createPlayer(videoId) {
+      player = new YT.Player('youtubePlayer', {
+        videoId, playerVars: { autoplay: 0, controls: 0, modestbranding: 1, rel: 0, playsinline: 1 },
+        events: { onReady: () => { playerReady = true; playerLoader.style.display = 'none'; centerPlayBtn.style.display = 'flex'; durationEl.textContent = formatTime(player.getDuration()); setInterval(updateProgress, 100); }, onStateChange: (e) => { updatePlayPauseIcon(e.data === 1); centerPlayBtn.style.display = e.data === 1 ? 'none' : 'flex'; } }
+      });
+    }
+
+    function updatePlayPauseIcon(playing) {
+      playPauseBtn.innerHTML = playing ? '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>' : '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+    }
+
+    function togglePlay() {
+      if (!playerReady) return;
+      player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo();
+    }
+
+    function seekVideo(s) {
+      if (!playerReady) return;
+      player.seekTo(player.getCurrentTime() + s, true);
+    }
+
+    function updateProgress() {
+      if (!playerReady) return;
+      const ct = player.getCurrentTime(), dur = player.getDuration();
+      currentTimeEl.textContent = formatTime(ct);
+      progressBar.style.width = (ct / dur) * 100 + '%';
+    }
+
+    function formatTime(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return `${m}:${sec.toString().padStart(2, '0')}`; }
+
+    playPauseBtn.addEventListener('click', togglePlay);
+    centerPlayBtn.addEventListener('click', togglePlay);
+    document.getElementById('progressBarWrapper').addEventListener('click', (e) => {
+      if (!playerReady) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      player.seekTo(((e.clientX - rect.left) / rect.width) * player.getDuration(), true);
+    });
+    document.getElementById('fullscreenBtn').addEventListener('click', () => {
+      document.querySelector('.player-container').requestFullscreen();
+    });
+
+    (function init() {
+      applyTheme(localStorage.getItem('chillflix-theme') !== 'light');
+      document.getElementById('profileInitials').textContent = (localStorage.getItem('chillflix-profile') && JSON.parse(localStorage.getItem('chillflix-profile')).displayName || 'JD').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    })();
+  </script>
+</body>
+</html>

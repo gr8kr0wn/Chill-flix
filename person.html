@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chillflix — Person</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎬</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://image.tmdb.org" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- ═══════════════════════════════════════════════════
+     CHILLFLIX SEO META TAGS + PWA
+════════════════════════════════════════════════════ -->
+<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
+<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+<meta name="author" content="Chillflix" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="theme-color" content="#e50914" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Chillflix" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://chillflix.app/" />
+<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://chillflix.app/" />
+<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('[PWA] Service Worker registered'))
+        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+    });
+  }
+</script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       CHILLFLIX PERSON — PRODUCTION READY
+       Actor/Actress detail page with TMDB integration
+    ════════════════════════════════════════════════════ */
+
+    :root,
+    [data-theme="dark"] {
+      --bg:         #0a0a0f;
+      --surface:    #0e0e18;
+      --card:       #141420;
+      --card-hov:   #1c1c2e;
+      --border:     rgba(255,255,255,0.09);
+      --border-mid: rgba(255,255,255,0.15);
+      --text:       #ffffff;
+      --muted:      #8a8aaa;
+      --muted2:     rgba(255,255,255,0.35);
+      --red:        #e50914;
+      --red-hov:    #f40612;
+      --nav-bg:     rgba(10,10,15,0.92);
+      --pill-bg:    rgba(255,255,255,0.06);
+      --pill-hov:   rgba(255,255,255,0.12);
+      --logo-chill: #ffffff;
+      --bottom-nav-bg: rgba(10,10,15,0.95);
+      --gold:       #fbbf24;
+    }
+
+    [data-theme="light"] {
+      --bg:         #f5f5f8;
+      --surface:    #ebebf2;
+      --card:       #ffffff;
+      --card-hov:   #f0f0f7;
+      --border:     rgba(0,0,0,0.10);
+      --border-mid: rgba(0,0,0,0.18);
+      --text:       #0f0f1a;
+      --muted:      #6b6b85;
+      --muted2:     rgba(15,15,26,0.40);
+      --red:        #e50914;
+      --red-hov:    #c00710;
+      --nav-bg:     rgba(245,245,248,0.92);
+      --pill-bg:    rgba(0,0,0,0.05);
+      --pill-hov:   rgba(0,0,0,0.10);
+      --logo-chill: #0f0f1a;
+      --bottom-nav-bg: rgba(245,245,248,0.95);
+      --gold:       #d97706;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', 'Impact', sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 40;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .back-btn {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      background: transparent;
+      border: none;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .back-btn:hover { background: var(--pill-bg); }
+    .back-btn svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    .logo-link { font-size: 24px; text-decoration: none; }
+    .logo-link .chill { color: var(--logo-chill); transition: color 0.4s; }
+    .logo-link .flix  { color: var(--red); }
+
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .theme-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); }
+    .theme-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    .profile-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--red);
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .profile-btn:hover { background: var(--red-hov); }
+
+    #main-content {
+      margin-top: 60px;
+      padding: 24px 28px;
+      min-height: calc(100vh - 60px);
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+      #main-content { padding: 16px; padding-bottom: 80px; }
+    }
+
+    /* Profile Header */
+    .person-header {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .profile-image-container {
+      flex-shrink: 0;
+      width: 280px;
+    }
+
+    .profile-image {
+      aspect-ratio: 2/3;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+      background: var(--card);
+    }
+
+    .profile-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-info {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .person-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .person-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+      margin-bottom: 20px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .meta-item svg {
+      width: 18px; height: 18px;
+      stroke: var(--red);
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    .person-biography {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 24px;
+      max-width: 700px;
+    }
+
+    .bio-truncated {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .bio-expanded {
+      -webkit-line-clamp: unset;
+    }
+
+    .read-more-btn {
+      background: transparent;
+      border: none;
+      color: var(--red);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .personal-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .detail-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .detail-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .external-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .external-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 30px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .external-link:hover {
+      background: var(--card-hov);
+      border-color: var(--border-mid);
+    }
+
+    /* Section Titles */
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title svg {
+      width: 24px; height: 24px;
+      stroke: var(--red);
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    /* Known For / Filmography */
+    .known-for-section {
+      margin: 40px 0;
+    }
+
+    .filmography-filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 8px 16px;
+      border-radius: 30px;
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-pill:hover {
+      background: var(--pill-hov);
+      color: var(--text);
+    }
+
+    .filter-pill.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+
+    .movies-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .movies-scroll::-webkit-scrollbar { display: none; }
+
+    .movie-card {
+      flex-shrink: 0;
+      width: 150px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      text-decoration: none;
+    }
+
+    .movie-card:hover { transform: translateY(-4px); }
+
+    .movie-poster {
+      aspect-ratio: 2/3;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+      background: var(--card);
+    }
+
+    .movie-poster img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .movie-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+
+    .movie-character {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .movie-year {
+      font-size: 11px;
+      color: var(--muted2);
+    }
+
+    .movie-rating {
+      font-size: 11px;
+      color: var(--gold);
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+      margin: 40px 0;
+    }
+
+    .gallery-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+    }
+
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+
+    .gallery-image {
+      flex-shrink: 0;
+      width: 200px;
+      height: 280px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .gallery-image:hover { transform: scale(1.02); }
+
+    .gallery-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    /* Skeletons */
+    .skeleton-text {
+      background: linear-gradient(90deg, var(--card) 25%, var(--card-hov) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+
+    .skeleton-poster {
+      aspect-ratio: 2/3;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--card) 25%, var(--card-hov) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-card {
+      flex-shrink: 0;
+      width: 150px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--card);
+      border: 1px solid var(--border-mid);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform 0.4s;
+      white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      background: var(--bottom-nav-bg);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      z-index: 50;
+      padding: 0 16px;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .bottom-nav { display: flex; }
+      .profile-image-container { width: 100%; max-width: 250px; margin: 0 auto; }
+      .person-header { justify-content: center; text-align: center; }
+      .meta-item { justify-content: center; }
+      .external-links { justify-content: center; }
+    }
+
+    @media (min-width: 769px) {
+      .bottom-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toast"></div>
+
+  <div id="topbar">
+    <div class="topbar-left">
+      <a href="javascript:history.back()" class="back-btn">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="index.html" class="logo-link logo-text">
+        <span class="chill">Chill</span><span class="flix">flix</span>
+      </a>
+    </div>
+
+    <div class="topbar-right">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <a href="profile.html" class="profile-btn" id="profileInitials">JD</a>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <!-- Person Header -->
+    <div class="person-header" id="personHeader">
+      <div class="profile-image-container">
+        <div class="profile-image skeleton-text"></div>
+      </div>
+      <div class="profile-info">
+        <div class="skeleton-text" style="height:48px;width:80%;margin-bottom:16px;"></div>
+        <div class="skeleton-text" style="height:20px;width:60%;margin-bottom:20px;"></div>
+        <div class="skeleton-text" style="height:80px;width:100%;margin-bottom:20px;"></div>
+      </div>
+    </div>
+
+    <!-- Known For Section -->
+    <div class="known-for-section" id="knownForSection" style="display:none;">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/></svg>
+        Known For
+      </h2>
+      <div class="filmography-filters" id="filmographyFilters">
+        <button class="filter-pill active" data-department="acting" onclick="filterFilmography('acting')">Acting</button>
+        <button class="filter-pill" data-department="all" onclick="filterFilmography('all')">All Credits</button>
+      </div>
+      <div class="movies-scroll" id="filmographyScroll"></div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-section" id="gallerySection" style="display:none;">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/></svg>
+        Photos
+      </h2>
+      <div class="gallery-scroll" id="galleryScroll"></div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></a>
+    <a href="search.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Search</span></a>
+    <a href="movies.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg><span>Movies</span></a>
+    <a href="watchlist.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Watchlist</span></a>
+    <a href="profile.html" class="bottom-nav-item"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+   PROTECTED ROUTE CHECK — Redirect if not logged in
+════════════════════════════════════════════════════ */
+
+(function checkAuth() {
+  const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
+  
+  // Public pages that don't require login
+  const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  
+  // If this is a public page, skip the check
+  if (publicPages.includes(currentPage)) {
+    return;
+  }
+  
+  // If not logged in, redirect to auth page
+  if (!isLoggedIn) {
+    // Save the page they were trying to access
+    sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
+    window.location.href = 'auth.html';
+  }
+})();
+    const TMDB_API_KEY = 'c619fb205a80d8c6c653895b7eae6f36';
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/';
+    const PROFILE_SIZE = 'h632';
+    const POSTER_SIZE = 'w342';
+    const GALLERY_SIZE = 'w342';
+
+    let personId = null;
+    let personData = null;
+    let combinedCredits = [];
+    let allImages = [];
+    let isDark = true;
+    let currentDepartment = 'acting';
+
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const profileInitials = document.getElementById('profileInitials');
+
+    const params = new URLSearchParams(window.location.search);
+    personId = params.get('id');
+    if (!personId) window.location.href = 'movies.html';
+
+    function getProfile() {
+      const saved = localStorage.getItem('chillflix-profile');
+      return saved ? JSON.parse(saved) : { displayName: 'John Doe', email: 'john.doe@example.com' };
+    }
+
+    function updateProfileUI() {
+      const p = getProfile();
+      profileInitials.textContent = p.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    }
+
+    function applyTheme(dark) {
+      isDark = dark;
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeToggle.innerHTML = dark 
+        ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+        : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light');
+    }
+
+    themeToggle.addEventListener('click', () => applyTheme(!isDark));
+
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    async function fetchFromTMDB(endpoint, params = {}) {
+      const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
+      url.searchParams.append('api_key', TMDB_API_KEY);
+      Object.entries(params).forEach(([k, v]) => url.searchParams.append(k, v));
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`TMDB error: ${response.status}`);
+        return await response.json();
+      } catch (e) { console.error('Fetch failed:', e); return null; }
+    }
+
+    function getImageUrl(path, size = PROFILE_SIZE) {
+      if (!path) return '';
+      return `${TMDB_IMAGE_BASE}${size}${path}`;
+    }
+
+    function calculateAge(birthday) {
+      if (!birthday) return null;
+      const birth = new Date(birthday);
+      const today = new Date();
+      let age = today.getFullYear() - birth.getFullYear();
+      const m = today.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+      return age;
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    async function loadPersonDetails() {
+      const data = await fetchFromTMDB(`/person/${personId}`, { language: 'en-US', append_to_response: 'external_ids' });
+      if (!data) return;
+      personData = data;
+
+      const profileUrl = getImageUrl(data.profile_path);
+      const age = calculateAge(data.birthday);
+      const birthplace = data.place_of_birth || 'Unknown';
+      const knownFor = data.known_for_department || 'Acting';
+      const alsoKnownAs = data.also_known_as?.length ? data.also_known_as.slice(0, 2).join(', ') : '';
+
+      const externalIds = data.external_ids || {};
+      const imdbUrl = externalIds.imdb_id ? `https://www.imdb.com/name/${externalIds.imdb_id}` : null;
+      const instagramUrl = externalIds.instagram_id ? `https://www.instagram.com/${externalIds.instagram_id}` : null;
+
+      document.getElementById('personHeader').innerHTML = `
+        <div class="profile-image-container">
+          <div class="profile-image">
+            ${profileUrl ? `<img src="${profileUrl}" alt="${data.name}">` : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--card);">🎭</div>'}
+          </div>
+        </div>
+        <div class="profile-info">
+          <h1 class="person-name">${data.name}</h1>
+          <div class="person-meta">
+            <span class="meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${knownFor}</span>
+            ${age ? `<span class="meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${age} years old</span>` : ''}
+            <span class="meta-item"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>${birthplace}</span>
+          </div>
+          <div class="person-biography" id="bioContainer">
+            <div class="bio-truncated" id="bioText">${data.biography || 'No biography available.'}</div>
+            ${data.biography && data.biography.length > 300 ? '<button class="read-more-btn" id="readMoreBtn" onclick="toggleBio()">Read More</button>' : ''}
+          </div>
+          <div class="personal-details">
+            ${data.birthday ? `<div class="detail-item"><span class="detail-label">Born</span><span class="detail-value">${formatDate(data.birthday)}</span></div>` : ''}
+            ${data.place_of_birth ? `<div class="detail-item"><span class="detail-label">Birthplace</span><span class="detail-value">${data.place_of_birth}</span></div>` : ''}
+            ${alsoKnownAs ? `<div class="detail-item"><span class="detail-label">Also Known As</span><span class="detail-value">${alsoKnownAs}</span></div>` : ''}
+          </div>
+          <div class="external-links">
+            ${imdbUrl ? `<a href="${imdbUrl}" target="_blank" class="external-link">IMDb</a>` : ''}
+            ${instagramUrl ? `<a href="${instagramUrl}" target="_blank" class="external-link">Instagram</a>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    window.toggleBio = function() {
+      const bioText = document.getElementById('bioText');
+      const btn = document.getElementById('readMoreBtn');
+      if (bioText.classList.contains('bio-truncated')) {
+        bioText.classList.remove('bio-truncated');
+        bioText.classList.add('bio-expanded');
+        btn.textContent = 'Show Less';
+      } else {
+        bioText.classList.add('bio-truncated');
+        bioText.classList.remove('bio-expanded');
+        btn.textContent = 'Read More';
+      }
+    };
+
+    async function loadCredits() {
+      const data = await fetchFromTMDB(`/person/${personId}/combined_credits`, { language: 'en-US' });
+      if (!data || !data.cast) return;
+      
+      combinedCredits = data.cast
+        .filter(item => item.media_type === 'movie')
+        .sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+      
+      document.getElementById('knownForSection').style.display = 'block';
+      renderFilmography();
+    }
+
+    function renderFilmography() {
+      const scroll = document.getElementById('filmographyScroll');
+      let credits = combinedCredits;
+      
+      if (currentDepartment === 'acting') {
+        credits = credits.filter(c => c.character);
+      }
+      
+      credits = credits.slice(0, 20);
+
+      if (credits.length === 0) {
+        scroll.innerHTML = '<div class="empty-state">No credits found</div>';
+        return;
+      }
+
+      scroll.innerHTML = credits.map(movie => {
+        const posterUrl = getImageUrl(movie.poster_path, POSTER_SIZE);
+        const year = movie.release_date ? movie.release_date.substring(0, 4) : 'TBD';
+        const rating = movie.vote_average ? movie.vote_average.toFixed(1) : '0.0';
+        
+        return `
+          <a href="movie.html?id=${movie.id}" class="movie-card">
+            <div class="movie-poster">
+              ${posterUrl ? `<img src="${posterUrl}" alt="${movie.title}">` : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--card);">🎬</div>'}
+            </div>
+            <div class="movie-title">${movie.title}</div>
+            ${movie.character ? `<div class="movie-character">as ${movie.character}</div>` : ''}
+            <div class="movie-year">${year} · ★ ${rating}</div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    window.filterFilmography = function(dept) {
+      currentDepartment = dept;
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      document.querySelector(`.filter-pill[data-department="${dept}"]`).classList.add('active');
+      renderFilmography();
+    };
+
+    async function loadImages() {
+      const data = await fetchFromTMDB(`/person/${personId}/images`);
+      if (!data || !data.profiles) return;
+      
+      allImages = data.profiles.slice(0, 15);
+      if (allImages.length === 0) return;
+      
+      document.getElementById('gallerySection').style.display = 'block';
+      document.getElementById('galleryScroll').innerHTML = allImages.map(img => {
+        const imageUrl = getImageUrl(img.file_path, GALLERY_SIZE);
+        return `
+          <div class="gallery-image" onclick="window.open('${getImageUrl(img.file_path, 'original')}', '_blank')">
+            <img src="${imageUrl}" alt="Gallery image">
+          </div>
+        `;
+      }).join('');
+    }
+
+    (async function init() {
+      const savedTheme = localStorage.getItem('chillflix-theme');
+      applyTheme(savedTheme ? savedTheme === 'dark' : true);
+      updateProfileUI();
+      
+      await Promise.all([
+        loadPersonDetails(),
+        loadCredits(),
+        loadImages()
+      ]);
+    })();
+  </script>
+</body>
+</html>

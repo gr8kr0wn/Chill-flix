@@ -194,7 +194,7 @@
     const isPremium = localStorage.getItem('chillflix-premium') === 'true';
     
     // BACKEND API URL — Update this after deploying to Vercel
-    const BACKEND_API_URL = 'http://localhost:8000'; // Change to your Vercel URL after deployment
+    const BACKEND_API_URL = 'https://chill-flixx.vercel.app'; // Change to your Vercel URL after deployment
     
     let movieId = null, movieData = null, player = null, html5Player = null, isDark = true;
     let playerReady = false, idleTimer = null, trailerKey = null, hasLoggedHistory = false;

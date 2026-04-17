@@ -9,42 +9,45 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://image.tmdb.org" />
   <link rel="preconnect" href="https://www.youtube.com" />
+  <link rel="preconnect" href="https://archive.org" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <!-- ═══════════════════════════════════════════════════
-     CHILLFLIX SEO META TAGS + PWA
-════════════════════════════════════════════════════ -->
-<meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
-<meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment. Watch anywhere, anytime." />
-<meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
-<meta name="author" content="Chillflix" />
-<meta name="robots" content="index, follow" />
-<meta name="language" content="English" />
-<meta name="revisit-after" content="7 days" />
-<meta name="theme-color" content="#e50914" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Chillflix" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://chillflix.app/" />
-<meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
-<meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
-<meta property="og:image" content="https://chillflix.app/og-image.jpg" />
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content="https://chillflix.app/" />
-<meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
-<meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
-<meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
-<link rel="manifest" href="/manifest.json" />
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(registration => console.log('[PWA] Service Worker registered'))
-        .catch(error => console.log('[PWA] Service Worker registration failed:', error));
-    });
-  }
-</script>
+  
+  <!-- HLS.js for M3U8 streams -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="title" content="Chillflix — Stream Free Movies & Series in HD" />
+  <meta name="description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+  <meta name="keywords" content="movies, streaming, free movies, HD movies, TV series, watch online, Chillflix" />
+  <meta name="author" content="Chillflix" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="theme-color" content="#e50914" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Chillflix" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://chillflix.app/" />
+  <meta property="og:title" content="Chillflix — Stream Free Movies & Series in HD" />
+  <meta property="og:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+  <meta property="og:image" content="https://chillflix.app/og-image.jpg" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://chillflix.app/" />
+  <meta property="twitter:title" content="Chillflix — Stream Free Movies & Series in HD" />
+  <meta property="twitter:description" content="Stream thousands of movies and series in HD for free. No credit card, no commitment." />
+  <meta property="twitter:image" content="https://chillflix.app/og-image.jpg" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230a0a0f'/><rect x='24' y='24' width='144' height='144' rx='20' fill='%23141420'/><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23ffffff'>C</text><text x='96' y='128' font-family='Arial, sans-serif' font-size='72' font-weight='900' text-anchor='middle' fill='%23e50914' dx='50'>f</text></svg>" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => console.log('[PWA] Service Worker registered'))
+          .catch(error => console.log('[PWA] Service Worker registration failed:', error));
+      });
+    }
+  </script>
   <style>
     :root, [data-theme="dark"] {
       --bg: #000000; --surface: #0a0a0f; --card: #141420; --card-hov: #1c1c2e;
@@ -54,6 +57,7 @@
       --logo-chill: #ffffff; --controls-bg: rgba(0,0,0,0.7);
       --progress-bg: rgba(255,255,255,0.2); --progress-fill: var(--red);
       --upgrade-bg: rgba(229,9,20,0.1); --premium-grad: linear-gradient(135deg, #e50914 0%, #b30710 100%);
+      --success: #22c55e; --warning: #fbbf24; --info: #3b82f6;
     }
     [data-theme="light"] {
       --bg: #f5f5f8; --surface: #ebebf2; --card: #ffffff; --card-hov: #f0f0f7;
@@ -63,6 +67,7 @@
       --logo-chill: #0f0f1a; --controls-bg: rgba(255,255,255,0.9);
       --progress-bg: rgba(0,0,0,0.1); --progress-fill: var(--red);
       --upgrade-bg: rgba(229,9,20,0.05); --premium-grad: linear-gradient(135deg, #e50914 0%, #b30710 100%);
+      --success: #16a34a; --warning: #d97706; --info: #2563eb;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 0.3s, color 0.3s; overflow-x: hidden; }
@@ -74,13 +79,19 @@
     .back-btn:hover { background: var(--card); }
     .back-btn svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
     .logo-link { font-size: 24px; text-decoration: none; } .logo-link .chill { color: var(--logo-chill); transition: color 0.4s; } .logo-link .flix { color: var(--red); }
-    .movie-info-top { display: flex; align-items: center; gap: 12px; } .movie-title-top { font-weight: 600; font-size: 16px; color: var(--text); } .movie-year-top { font-size: 14px; color: var(--muted); }
-    .rating-top { display: flex; align-items: center; gap: 4px; color: #fbbf24; font-size: 14px; font-weight: 600; } .rating-top svg { width: 14px; height: 14px; fill: #fbbf24; }
+    .movie-info-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; } .movie-title-top { font-weight: 600; font-size: 16px; color: var(--text); } .movie-year-top { font-size: 14px; color: var(--muted); }
+    .rating-top { display: flex; align-items: center; gap: 4px; color: var(--warning); font-size: 14px; font-weight: 600; } .rating-top svg { width: 14px; height: 14px; fill: var(--warning); }
+    .source-badge { display: flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--success); color: white; }
+    .source-badge.trailer { background: var(--warning); color: #0a0a0f; }
+    .source-badge.moviebox { background: var(--info); color: white; }
+    .source-badge.archive { background: var(--success); color: white; }
     .topbar-right { display: flex; align-items: center; gap: 12px; }
     .theme-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
     .theme-btn:hover { border-color: var(--red); background: rgba(229,9,20,0.08); } .theme-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
     .profile-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: white; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; transition: background 0.2s; text-decoration: none; } .profile-btn:hover { background: var(--red-hov); }
-    .player-wrapper { position: relative; width: 100%; background: #000; margin-top: 60px; } .player-container { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; } #youtubePlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .player-wrapper { position: relative; width: 100%; background: #000; margin-top: 60px; } .player-container { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; } 
+    #youtubePlayer, #html5Player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    #html5Player { display: none; }
     .player-overlay { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: flex-end; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 30%); opacity: 1; transition: opacity 0.3s; cursor: pointer; } .player-overlay.idle { opacity: 0; pointer-events: none; }
     .center-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; border-radius: 50%; background: rgba(229,9,20,0.9); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s, background 0.2s; z-index: 20; } .center-play-btn:hover { transform: translate(-50%, -50%) scale(1.1); background: var(--red); } .center-play-btn svg { width: 40px; height: 40px; fill: white; margin-left: 4px; }
     .controls-bar { padding: 20px; padding-top: 40px; } .progress-container { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; } .time-current, .time-duration { font-size: 13px; color: rgba(255,255,255,0.8); font-variant-numeric: tabular-nums; min-width: 45px; } .progress-bar-wrapper { flex: 1; height: 4px; background: var(--progress-bg); border-radius: 2px; cursor: pointer; position: relative; } .progress-bar { width: 0%; height: 100%; background: var(--progress-fill); border-radius: 2px; position: relative; transition: width 0.1s; } .progress-handle { width: 14px; height: 14px; background: var(--progress-fill); border-radius: 50%; position: absolute; right: -7px; top: -5px; opacity: 0; transition: opacity 0.2s; border: 2px solid white; } .progress-bar-wrapper:hover .progress-handle { opacity: 1; }
@@ -92,7 +103,7 @@
     .upgrade-modal { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center; } .modal-icon { width: 60px; height: 60px; margin: 0 auto 16px; background: var(--premium-grad); border-radius: 50%; display: flex; align-items: center; justify-content: center; } .modal-icon svg { width: 32px; height: 32px; fill: white; } .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--text); margin-bottom: 12px; } .modal-text { color: var(--muted); margin-bottom: 24px; line-height: 1.6; } .modal-btn { width: 100%; padding: 14px; border-radius: 40px; background: var(--premium-grad); color: white; font-weight: 700; border: none; cursor: pointer; text-decoration: none; display: block; margin-bottom: 12px; } .modal-close { background: transparent; border: 1px solid var(--border); color: var(--muted); }
     #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--card); border: 1px solid var(--border-mid); color: var(--text); padding: 12px 24px; border-radius: 40px; font-size: 14px; font-weight: 600; z-index: 9999; transition: transform 0.4s; white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.3); pointer-events: none; } #toast.show { transform: translateX(-50%) translateY(0); }
     .loading-spinner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.2); border-top-color: var(--red); border-radius: 50%; animation: spin 1s linear infinite; z-index: 5; } @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-    @media (max-width: 768px) { .controls-left, .controls-right { gap: 4px; } .control-btn { width: 44px; height: 44px; } .volume-container { display: none; } .premium-btn span { display: none; } .premium-btn { padding: 10px; } .movie-title-top { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .movie-year-top { display: none; } }
+    @media (max-width: 768px) { .controls-left, .controls-right { gap: 4px; } .control-btn { width: 44px; height: 44px; } .volume-container { display: none; } .premium-btn span { display: none; } .premium-btn { padding: 10px; } .movie-title-top { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .movie-year-top { display: none; } .source-badge { display: none; } }
   </style>
 </head>
 <body>
@@ -114,6 +125,7 @@
         <span class="movie-title-top" id="movieTitleTop">Loading...</span>
         <span class="movie-year-top" id="movieYearTop"></span>
         <span class="rating-top" id="movieRatingTop"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>0.0</span>
+        <span class="source-badge" id="sourceBadge" style="display:none;"></span>
       </div>
     </div>
     <div class="topbar-right">
@@ -124,6 +136,7 @@
   <div class="player-wrapper">
     <div class="player-container">
       <div id="youtubePlayer"></div>
+      <video id="html5Player" controlsList="nodownload"></video>
       <div class="loading-spinner" id="playerLoader"></div>
       <div class="player-overlay" id="playerOverlay">
         <button class="center-play-btn" id="centerPlayBtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
@@ -160,68 +173,520 @@
   </div>
   <script>
     /* ═══════════════════════════════════════════════════
-   PROTECTED ROUTE CHECK — Redirect if not logged in
-════════════════════════════════════════════════════ */
+       CHILLFLIX WATCH — MOVIEBOX API + FALLBACKS
+    ════════════════════════════════════════════════════ */
 
-(function checkAuth() {
-  const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
-  
-  // Public pages that don't require login
-  const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  
-  // If this is a public page, skip the check
-  if (publicPages.includes(currentPage)) {
-    return;
-  }
-  
-  // If not logged in, redirect to auth page
-  if (!isLoggedIn) {
-    // Save the page they were trying to access
-    sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
-    window.location.href = 'auth.html';
-  }
-})();
+    // Protected Route Check
+    (function checkAuth() {
+      const isLoggedIn = localStorage.getItem('chillflix-logged-in') === 'true';
+      const publicPages = ['index.html', 'auth.html', 'upgrade.html', 'error.html'];
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      if (publicPages.includes(currentPage)) return;
+      if (!isLoggedIn) {
+        sessionStorage.setItem('chillflix-redirect-after-login', window.location.href);
+        window.location.href = 'auth.html';
+      }
+    })();
+
     const TMDB_API_KEY = 'c619fb205a80d8c6c653895b7eae6f36';
     const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
     const DEFAULT_TRAILER = 'zSWdZVtXT7E';
     const isPremium = localStorage.getItem('chillflix-premium') === 'true';
-    let movieId = null, movieData = null, player = null, isDark = true, playerReady = false, idleTimer = null, trailerKey = null, hasLoggedHistory = false;
-    const html = document.documentElement, themeToggle = document.getElementById('themeToggle'), playerOverlay = document.getElementById('playerOverlay'), playPauseBtn = document.getElementById('playPauseBtn'), centerPlayBtn = document.getElementById('centerPlayBtn'), progressBar = document.getElementById('progressBar'), progressBarWrapper = document.getElementById('progressBarWrapper'), currentTimeEl = document.getElementById('currentTime'), durationEl = document.getElementById('duration'), playerLoader = document.getElementById('playerLoader'), profileInitials = document.getElementById('profileInitials');
-    const params = new URLSearchParams(window.location.search); movieId = params.get('id'); if (!movieId) window.location.href = 'movies.html';
-    function getProfile() { const saved = localStorage.getItem('chillflix-profile'); return saved ? JSON.parse(saved) : { displayName: 'John Doe', email: 'john.doe@example.com' }; }
-    function updateProfileUI() { const p = getProfile(); profileInitials.textContent = p.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2); }
-    function logToHistory(type, movieId, data = {}) { const history = JSON.parse(localStorage.getItem('chillflix-history') || '[]'); history.push({ type, movieId: parseInt(movieId), timestamp: new Date().toISOString(), ...data }); localStorage.setItem('chillflix-history', JSON.stringify(history)); }
-    function applyTheme(dark) { isDark = dark; html.setAttribute('data-theme', dark ? 'dark' : 'light'); themeToggle.innerHTML = dark ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'; localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light'); }
+    
+    // BACKEND API URL — Update this after deploying to Vercel
+    const BACKEND_API_URL = 'http://localhost:8000'; // Change to your Vercel URL after deployment
+    
+    let movieId = null, movieData = null, player = null, html5Player = null, isDark = true;
+    let playerReady = false, idleTimer = null, trailerKey = null, hasLoggedHistory = false;
+    let currentSource = 'youtube'; // 'moviebox', 'archive', 'youtube'
+    let hls = null;
+    
+    const html = document.documentElement, themeToggle = document.getElementById('themeToggle');
+    const playerOverlay = document.getElementById('playerOverlay'), playPauseBtn = document.getElementById('playPauseBtn');
+    const centerPlayBtn = document.getElementById('centerPlayBtn'), progressBar = document.getElementById('progressBar');
+    const progressBarWrapper = document.getElementById('progressBarWrapper'), currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration'), playerLoader = document.getElementById('playerLoader');
+    const profileInitials = document.getElementById('profileInitials'), youtubePlayer = document.getElementById('youtubePlayer');
+    const html5Video = document.getElementById('html5Player'), sourceBadge = document.getElementById('sourceBadge');
+    
+    const params = new URLSearchParams(window.location.search); 
+    movieId = params.get('id'); 
+    if (!movieId) window.location.href = 'movies.html';
+
+    // ── Profile & History ────────────────────
+    function getProfile() { 
+      const saved = localStorage.getItem('chillflix-profile'); 
+      return saved ? JSON.parse(saved) : { displayName: 'John Doe', email: 'john.doe@example.com' }; 
+    }
+    function updateProfileUI() { 
+      const p = getProfile(); 
+      profileInitials.textContent = p.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2); 
+    }
+    function logToHistory(type, movieId, data = {}) { 
+      const history = JSON.parse(localStorage.getItem('chillflix-history') || '[]'); 
+      history.push({ type, movieId: parseInt(movieId), timestamp: new Date().toISOString(), ...data }); 
+      localStorage.setItem('chillflix-history', JSON.stringify(history)); 
+    }
+
+    // ── Theme ────────────────────────────────
+    function applyTheme(dark) { 
+      isDark = dark; 
+      html.setAttribute('data-theme', dark ? 'dark' : 'light'); 
+      themeToggle.innerHTML = dark ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'; 
+      localStorage.setItem('chillflix-theme', dark ? 'dark' : 'light'); 
+    }
     themeToggle.addEventListener('click', () => applyTheme(!isDark));
-    let toastTimer; function showToast(msg, isError = false) { const t = document.getElementById('toast'); t.textContent = msg; t.style.background = isError ? 'rgba(229,9,20,0.9)' : 'var(--card)'; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.classList.remove('show'); t.style.background = 'var(--card)'; }, 3000); }
-    function showUpgradeModal(feature) { document.getElementById('modalMessage').textContent = `${feature} is a premium feature. Upgrade to unlock 4K quality, downloads, and watch together.`; document.getElementById('upgradeModal').classList.add('show'); }
-    function closeModal(e) { if (!e || e.target.classList.contains('modal-overlay')) document.getElementById('upgradeModal').classList.remove('show'); }
-    function handlePremiumFeature(feature) { if (isPremium) showToast(`✅ ${feature} activated (Premium)`); else showUpgradeModal(feature); }
-    async function fetchFromTMDB(endpoint, params = {}) { const url = new URL(`${TMDB_BASE_URL}${endpoint}`); url.searchParams.append('api_key', TMDB_API_KEY); Object.entries(params).forEach(([k, v]) => url.searchParams.append(k, v)); try { const r = await fetch(url); if (!r.ok) throw new Error(`TMDB error: ${r.status}`); return await r.json(); } catch (e) { console.error('Fetch failed:', e); return null; } }
-    async function loadMovieData() { const data = await fetchFromTMDB(`/movie/${movieId}`, { language: 'en-US' }); if (!data) { showToast('Failed to load movie data', true); return; } movieData = data; document.getElementById('movieTitleTop').textContent = data.title; document.getElementById('movieStripTitle').textContent = data.title; const year = data.release_date ? data.release_date.substring(0, 4) : 'TBD'; document.getElementById('movieYearTop').textContent = year; document.getElementById('movieRatingTop').innerHTML = `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${data.vote_average.toFixed(1)}`; const hours = Math.floor(data.runtime / 60), mins = data.runtime % 60, genres = data.genres.map(g => g.name).join(' · '); document.getElementById('movieStripMeta').textContent = `${year} · ${hours}h ${mins}m · ${genres}`; await loadTrailer(); }
-    async function loadTrailer() { const data = await fetchFromTMDB(`/movie/${movieId}/videos`, { language: 'en-US' }); if (data && data.results) { const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube'); if (trailer) trailerKey = trailer.key; } if (!trailerKey) { trailerKey = DEFAULT_TRAILER; showToast('Trailer not available. Playing sample instead.'); } initYouTubePlayer(); }
-    function initYouTubePlayer() { if (player) { player.destroy(); player = null; } playerReady = false; playerLoader.style.display = 'block'; if (!window.YT) { const tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api'; const firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); window.onYouTubeIframeAPIReady = () => createPlayer(); } else { createPlayer(); } }
-    function createPlayer() { try { player = new YT.Player('youtubePlayer', { videoId: trailerKey, playerVars: { autoplay: 0, controls: 0, modestbranding: 1, rel: 0, showinfo: 0, iv_load_policy: 3, fs: 0, playsinline: 1, origin: window.location.origin }, events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange, onError: onPlayerError } }); } catch (e) { console.error('Player creation error:', e); playerLoader.style.display = 'none'; showToast('Failed to load player. Please refresh.', true); } }
-    function onPlayerError(event) { console.error('YouTube player error:', event.data); playerLoader.style.display = 'none'; if (trailerKey !== DEFAULT_TRAILER) { trailerKey = DEFAULT_TRAILER; initYouTubePlayer(); } else { showToast('Video player error. Please try another movie.', true); } }
-    function onPlayerReady(event) { playerReady = true; playerLoader.style.display = 'none'; centerPlayBtn.style.display = 'flex'; const duration = player.getDuration(); if (duration > 0) durationEl.textContent = formatTime(duration); setInterval(updateProgress, 100); }
-    function onPlayerStateChange(event) { const isPlaying = event.data === YT.PlayerState.PLAYING; updatePlayPauseIcon(isPlaying); if (isPlaying) { centerPlayBtn.style.display = 'none'; startIdleTimer(); if (!hasLoggedHistory && movieId && movieData) { logToHistory('watch', movieId, { progress: Math.floor(player.getCurrentTime()), title: movieData.title }); hasLoggedHistory = true; } } else { centerPlayBtn.style.display = 'flex'; playerOverlay.classList.remove('idle'); } }
-    function updatePlayPauseIcon(playing) { playPauseBtn.innerHTML = playing ? '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>' : '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>'; }
-    function togglePlay() { if (!playerReady || !player) return; try { player.getPlayerState() === YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo(); } catch (e) { console.error('Play/pause error:', e); } }
-    function seekVideo(seconds) { if (!playerReady || !player) return; try { const currentTime = player.getCurrentTime(); player.seekTo(currentTime + seconds, true); showToast(seconds > 0 ? `+${seconds}s` : `${seconds}s`); } catch (e) { console.error('Seek error:', e); } }
-    function updateProgress() { if (!playerReady || !player) return; try { const currentTime = player.getCurrentTime(), duration = player.getDuration(); if (currentTime && duration) { currentTimeEl.textContent = formatTime(currentTime); if (duration > 0) progressBar.style.width = (currentTime / duration) * 100 + '%'; } } catch (e) {} }
-    function formatTime(seconds) { if (isNaN(seconds) || seconds < 0) return '0:00'; const mins = Math.floor(seconds / 60), secs = Math.floor(seconds % 60); return `${mins}:${secs.toString().padStart(2, '0')}`; }
-    playPauseBtn.addEventListener('click', togglePlay); centerPlayBtn.addEventListener('click', togglePlay);
-    progressBarWrapper.addEventListener('click', (e) => { if (!playerReady || !player) return; try { const rect = progressBarWrapper.getBoundingClientRect(); player.seekTo(((e.clientX - rect.left) / rect.width) * player.getDuration(), true); } catch (err) {} });
-    const muteBtn = document.getElementById('muteBtn'), volumeSlider = document.getElementById('volumeSlider'), volumeFill = document.getElementById('volumeFill'); let isMuted = false;
-    muteBtn.addEventListener('click', () => { if (!playerReady || !player) return; isMuted = !isMuted; if (isMuted) { player.setVolume(0); volumeFill.style.width = '0%'; muteBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>'; } else { player.setVolume(100); volumeFill.style.width = '100%'; muteBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>'; } });
-    volumeSlider.addEventListener('click', (e) => { if (!playerReady || !player) return; const rect = volumeSlider.getBoundingClientRect(), percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); player.setVolume(Math.round(percent * 100)); volumeFill.style.width = (percent * 100) + '%'; isMuted = percent === 0; });
-    document.getElementById('fullscreenBtn').addEventListener('click', () => { const container = document.querySelector('.player-container'); document.fullscreenElement ? document.exitFullscreen() : container.requestFullscreen(); });
-    function startIdleTimer() { clearTimeout(idleTimer); playerOverlay.classList.remove('idle'); idleTimer = setTimeout(() => { if (player && player.getPlayerState() === YT.PlayerState.PLAYING) playerOverlay.classList.add('idle'); }, 3000); }
-    playerOverlay.addEventListener('mousemove', startIdleTimer); playerOverlay.addEventListener('click', () => { if (playerOverlay.classList.contains('idle')) startIdleTimer(); });
-    let lastTap = 0; playerOverlay.addEventListener('touchend', (e) => { const currentTime = new Date().getTime(), tapLength = currentTime - lastTap; if (tapLength < 300 && tapLength > 0) { const rect = playerOverlay.getBoundingClientRect(), x = e.changedTouches[0].clientX - rect.left; if (x < rect.width / 3) seekVideo(-10); else if (x > rect.width * 2/3) seekVideo(10); e.preventDefault(); } lastTap = currentTime; });
-    document.addEventListener('keydown', (e) => { if (!playerReady) return; switch(e.code) { case 'Space': e.preventDefault(); togglePlay(); break; case 'ArrowLeft': seekVideo(-5); break; case 'ArrowRight': seekVideo(5); break; case 'KeyF': document.querySelector('.player-container').requestFullscreen(); break; case 'KeyM': muteBtn.click(); break; } });
-    (async function init() { const savedTheme = localStorage.getItem('chillflix-theme'); applyTheme(savedTheme ? savedTheme === 'dark' : true); updateProfileUI(); await loadMovieData(); })();
+
+    // ── Toast ────────────────────────────────
+    let toastTimer; 
+    function showToast(msg, isError = false) { 
+      const t = document.getElementById('toast'); 
+      t.textContent = msg; 
+      t.style.background = isError ? 'rgba(229,9,20,0.9)' : 'var(--card)'; 
+      t.classList.add('show'); 
+      clearTimeout(toastTimer); 
+      toastTimer = setTimeout(() => { t.classList.remove('show'); t.style.background = 'var(--card)'; }, 3000); 
+    }
+
+    // ── Premium Modal ────────────────────────
+    function showUpgradeModal(feature) { 
+      document.getElementById('modalMessage').textContent = `${feature} is a premium feature. Upgrade to unlock 4K quality, downloads, and watch together.`; 
+      document.getElementById('upgradeModal').classList.add('show'); 
+    }
+    function closeModal(e) { 
+      if (!e || e.target.classList.contains('modal-overlay')) document.getElementById('upgradeModal').classList.remove('show'); 
+    }
+    function handlePremiumFeature(feature) { 
+      if (isPremium) showToast(`✅ ${feature} activated (Premium)`); 
+      else showUpgradeModal(feature); 
+    }
+
+    // ── TMDB API ─────────────────────────────
+    async function fetchFromTMDB(endpoint, params = {}) { 
+      const url = new URL(`${TMDB_BASE_URL}${endpoint}`); 
+      url.searchParams.append('api_key', TMDB_API_KEY); 
+      Object.entries(params).forEach(([k, v]) => url.searchParams.append(k, v)); 
+      try { 
+        const r = await fetch(url); 
+        if (!r.ok) throw new Error(`TMDB error: ${r.status}`); 
+        return await r.json(); 
+      } catch (e) { console.error('Fetch failed:', e); return null; } 
+    }
+
+    // ── MOVIEBOX API CALL ────────────────────
+    async function searchMovieBox(title, year) {
+      const query = year ? `${title} ${year}` : title;
+      const url = `${BACKEND_API_URL}/backend/stream?title=${encodeURIComponent(query)}`;
+      
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`MovieBox error: ${response.status}`);
+        const data = await response.json();
+        return data;
+      } catch (e) {
+        console.error('MovieBox API failed:', e);
+        return null;
+      }
+    }
+
+    // ── INTERNET ARCHIVE SEARCH ──────────────
+    async function searchInternetArchive(title, year) {
+      const query = `${title} ${year || ''}`.trim();
+      const url = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}+AND+mediatype:(movies)&fl[]=identifier,title,year&output=json`;
+      
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.response.docs.length > 0) {
+          const bestMatch = data.response.docs.find(doc => 
+            doc.title?.toLowerCase().includes(title.toLowerCase()) ||
+            title.toLowerCase().includes(doc.title?.toLowerCase())
+          ) || data.response.docs[0];
+          
+          const identifier = bestMatch.identifier;
+          const mp4Url = `https://archive.org/download/${identifier}/${identifier}.mp4`;
+          
+          const check = await fetch(mp4Url, { method: 'HEAD' });
+          if (check.ok) {
+            return { url: mp4Url, identifier, title: bestMatch.title };
+          }
+        }
+      } catch (e) {
+        console.log('Internet Archive check failed:', e);
+      }
+      return null;
+    }
+
+    // ── LOAD MOVIE DATA ──────────────────────
+    async function loadMovieData() { 
+      const data = await fetchFromTMDB(`/movie/${movieId}`, { language: 'en-US' }); 
+      if (!data) { showToast('Failed to load movie data', true); return; } 
+      movieData = data; 
+      
+      document.getElementById('movieTitleTop').textContent = data.title; 
+      document.getElementById('movieStripTitle').textContent = data.title; 
+      const year = data.release_date ? data.release_date.substring(0, 4) : 'TBD'; 
+      document.getElementById('movieYearTop').textContent = year; 
+      document.getElementById('movieRatingTop').innerHTML = `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${data.vote_average.toFixed(1)}`; 
+      const hours = Math.floor(data.runtime / 60), mins = data.runtime % 60; 
+      const genres = data.genres.map(g => g.name).join(' · '); 
+      document.getElementById('movieStripMeta').textContent = `${year} · ${hours}h ${mins}m · ${genres}`; 
+      
+      await findBestSource(data.title, year);
+    }
+
+    // ── SMART SOURCE DETECTION ───────────────
+    async function findBestSource(title, year) {
+      playerLoader.style.display = 'block';
+      sourceBadge.style.display = 'flex';
+      
+      // STEP 1: Try MovieBox API (primary)
+      showToast('🔍 Searching MovieBox...');
+      sourceBadge.className = 'source-badge moviebox';
+      sourceBadge.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="white"><circle cx="12" cy="12" r="10"/></svg> MovieBox`;
+      
+      const movieBoxResult = await searchMovieBox(title, year);
+      
+      if (movieBoxResult && movieBoxResult.success && movieBoxResult.stream_url) {
+        currentSource = 'moviebox';
+        sourceBadge.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg> MovieBox`;
+        showToast(`🎬 Streaming from MovieBox (${movieBoxResult.quality || 'HD'})`);
+        
+        if (movieBoxResult.format === 'hls' || movieBoxResult.stream_url.includes('.m3u8')) {
+          initHLSPlayer(movieBoxResult.stream_url);
+        } else {
+          initHTML5Player(movieBoxResult.stream_url);
+        }
+        return;
+      }
+      
+      // STEP 2: Try Internet Archive
+      showToast('🔍 MovieBox unavailable. Trying Internet Archive...');
+      sourceBadge.className = 'source-badge archive';
+      sourceBadge.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="white"><rect x="2" y="2" width="20" height="20" rx="2"/></svg> Archive`;
+      
+      const archiveResult = await searchInternetArchive(title, year);
+      
+      if (archiveResult) {
+        currentSource = 'archive';
+        sourceBadge.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg> Internet Archive`;
+        showToast('🎬 Streaming from Internet Archive');
+        initHTML5Player(archiveResult.url);
+        return;
+      }
+      
+      // STEP 3: Fallback to YouTube trailer
+      showToast('📺 Loading trailer...');
+      sourceBadge.className = 'source-badge trailer';
+      sourceBadge.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="#0a0a0f"><polygon points="5 3 19 12 5 21 5 3"/></svg> Trailer`;
+      
+      const videos = await fetchFromTMDB(`/movie/${movieId}/videos`, { language: 'en-US' });
+      if (videos && videos.results) {
+        const trailer = videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+        trailerKey = trailer ? trailer.key : DEFAULT_TRAILER;
+      } else {
+        trailerKey = DEFAULT_TRAILER;
+      }
+      
+      currentSource = 'youtube';
+      initYouTubePlayer();
+    }
+
+    // ── HLS PLAYER (for M3U8 streams) ────────
+    function initHLSPlayer(url) {
+      youtubePlayer.style.display = 'none';
+      html5Video.style.display = 'block';
+      html5Player = html5Video;
+      
+      if (hls) { hls.destroy(); hls = null; }
+      
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(html5Video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          playerReady = true;
+          playerLoader.style.display = 'none';
+          centerPlayBtn.style.display = 'flex';
+          durationEl.textContent = formatTime(html5Video.duration);
+          setInterval(updateProgress, 100);
+        });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          if (data.fatal) {
+            console.error('HLS error:', data);
+            showToast('Stream error. Falling back...', true);
+            initYouTubePlayer();
+          }
+        });
+      } else if (html5Video.canPlayType('application/vnd.apple.mpegurl')) {
+        html5Video.src = url;
+        html5Video.addEventListener('loadedmetadata', () => {
+          playerReady = true;
+          playerLoader.style.display = 'none';
+          centerPlayBtn.style.display = 'flex';
+          durationEl.textContent = formatTime(html5Video.duration);
+          setInterval(updateProgress, 100);
+        });
+      } else {
+        showToast('HLS not supported. Trying fallback...', true);
+        initYouTubePlayer();
+      }
+    }
+
+    // ── HTML5 PLAYER (for MP4) ───────────────
+    function initHTML5Player(url) {
+      youtubePlayer.style.display = 'none';
+      html5Video.style.display = 'block';
+      html5Video.src = url;
+      html5Player = html5Video;
+      
+      if (hls) { hls.destroy(); hls = null; }
+      
+      html5Video.addEventListener('loadedmetadata', () => {
+        playerReady = true;
+        playerLoader.style.display = 'none';
+        centerPlayBtn.style.display = 'flex';
+        durationEl.textContent = formatTime(html5Video.duration);
+        setInterval(updateProgress, 100);
+      });
+      
+      html5Video.addEventListener('play', () => {
+        updatePlayPauseIcon(true);
+        centerPlayBtn.style.display = 'none';
+        startIdleTimer();
+        if (!hasLoggedHistory && movieId && movieData) {
+          logToHistory('watch', movieId, { progress: 0, title: movieData.title, source: currentSource });
+          hasLoggedHistory = true;
+        }
+      });
+      
+      html5Video.addEventListener('pause', () => {
+        updatePlayPauseIcon(false);
+        centerPlayBtn.style.display = 'flex';
+        playerOverlay.classList.remove('idle');
+      });
+      
+      html5Video.addEventListener('error', () => {
+        playerLoader.style.display = 'none';
+        showToast('Failed to load video. Trying trailer...', true);
+        initYouTubePlayer();
+      });
+    }
+
+    // ── YOUTUBE PLAYER ───────────────────────
+    function initYouTubePlayer() { 
+      if (player) { player.destroy(); player = null; } 
+      if (hls) { hls.destroy(); hls = null; }
+      html5Video.style.display = 'none';
+      youtubePlayer.style.display = 'block';
+      playerReady = false; 
+      playerLoader.style.display = 'block'; 
+      
+      currentSource = 'youtube';
+      sourceBadge.className = 'source-badge trailer';
+      sourceBadge.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="#0a0a0f"><polygon points="5 3 19 12 5 21 5 3"/></svg> Trailer`;
+      
+      if (!window.YT) { 
+        const tag = document.createElement('script'); 
+        tag.src = 'https://www.youtube.com/iframe_api'; 
+        const firstScriptTag = document.getElementsByTagName('script')[0]; 
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); 
+        window.onYouTubeIframeAPIReady = () => createPlayer(); 
+      } else { createPlayer(); } 
+    }
+    
+    function createPlayer() { 
+      try { 
+        player = new YT.Player('youtubePlayer', { 
+          videoId: trailerKey, 
+          playerVars: { autoplay: 0, controls: 0, modestbranding: 1, rel: 0, showinfo: 0, iv_load_policy: 3, fs: 0, playsinline: 1, origin: window.location.origin }, 
+          events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange, onError: onPlayerError } 
+        }); 
+      } catch (e) { 
+        console.error('Player creation error:', e); 
+        playerLoader.style.display = 'none'; 
+        showToast('Failed to load player. Please refresh.', true); 
+      } 
+    }
+    
+    function onPlayerError(event) { 
+      console.error('YouTube player error:', event.data); 
+      playerLoader.style.display = 'none'; 
+      showToast('Video player error. Please try another movie.', true); 
+    }
+    
+    function onPlayerReady(event) { 
+      playerReady = true; 
+      playerLoader.style.display = 'none'; 
+      centerPlayBtn.style.display = 'flex'; 
+      const duration = player.getDuration(); 
+      if (duration > 0) durationEl.textContent = formatTime(duration); 
+      setInterval(updateProgress, 100); 
+    }
+    
+    function onPlayerStateChange(event) { 
+      const isPlaying = event.data === YT.PlayerState.PLAYING; 
+      updatePlayPauseIcon(isPlaying); 
+      if (isPlaying) { 
+        centerPlayBtn.style.display = 'none'; 
+        startIdleTimer(); 
+        if (!hasLoggedHistory && movieId && movieData) { 
+          logToHistory('watch', movieId, { progress: Math.floor(player.getCurrentTime()), title: movieData.title, source: 'youtube' }); 
+          hasLoggedHistory = true; 
+        } 
+      } else { 
+        centerPlayBtn.style.display = 'flex'; 
+        playerOverlay.classList.remove('idle'); 
+      } 
+    }
+
+    // ── PLAYER CONTROLS ──────────────────────
+    function updatePlayPauseIcon(playing) { 
+      playPauseBtn.innerHTML = playing ? '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>' : '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>'; 
+    }
+    
+    function togglePlay() { 
+      if (!playerReady) return; 
+      try { 
+        if (currentSource === 'youtube' && player) {
+          player.getPlayerState() === YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo();
+        } else if ((currentSource === 'archive' || currentSource === 'moviebox') && html5Player) {
+          html5Player.paused ? html5Player.play() : html5Player.pause();
+        }
+      } catch (e) { console.error('Play/pause error:', e); } 
+    }
+    
+    function seekVideo(seconds) { 
+      if (!playerReady) return; 
+      try { 
+        if (currentSource === 'youtube' && player) {
+          const currentTime = player.getCurrentTime(); 
+          player.seekTo(currentTime + seconds, true);
+        } else if ((currentSource === 'archive' || currentSource === 'moviebox') && html5Player) {
+          html5Player.currentTime += seconds;
+        }
+        showToast(seconds > 0 ? `+${seconds}s` : `${seconds}s`); 
+      } catch (e) { console.error('Seek error:', e); } 
+    }
+    
+    function updateProgress() { 
+      if (!playerReady) return; 
+      try { 
+        let currentTime, duration;
+        if (currentSource === 'youtube' && player) {
+          currentTime = player.getCurrentTime();
+          duration = player.getDuration();
+        } else if ((currentSource === 'archive' || currentSource === 'moviebox') && html5Player) {
+          currentTime = html5Player.currentTime;
+          duration = html5Player.duration;
+        } else {
+          return;
+        }
+        
+        if (currentTime && duration) { 
+          currentTimeEl.textContent = formatTime(currentTime); 
+          if (duration > 0) progressBar.style.width = (currentTime / duration) * 100 + '%'; 
+        } 
+      } catch (e) {} 
+    }
+    
+    function formatTime(seconds) { 
+      if (isNaN(seconds) || seconds < 0) return '0:00'; 
+      const mins = Math.floor(seconds / 60), secs = Math.floor(seconds % 60); 
+      return `${mins}:${secs.toString().padStart(2, '0')}`; 
+    }
+
+    // ── Event Listeners ──────────────────────
+    playPauseBtn.addEventListener('click', togglePlay); 
+    centerPlayBtn.addEventListener('click', togglePlay);
+    progressBarWrapper.addEventListener('click', (e) => { 
+      if (!playerReady) return; 
+      try { 
+        const rect = progressBarWrapper.getBoundingClientRect(); 
+        const percent = (e.clientX - rect.left) / rect.width;
+        if (currentSource === 'youtube' && player) {
+          player.seekTo(percent * player.getDuration(), true);
+        } else if ((currentSource === 'archive' || currentSource === 'moviebox') && html5Player) {
+          html5Player.currentTime = percent * html5Player.duration;
+        }
+      } catch (err) {} 
+    });
+    
+    const muteBtn = document.getElementById('muteBtn'), volumeSlider = document.getElementById('volumeSlider'), volumeFill = document.getElementById('volumeFill'); 
+    let isMuted = false;
+    muteBtn.addEventListener('click', () => { 
+      if (!playerReady) return; 
+      isMuted = !isMuted; 
+      if (currentSource === 'youtube' && player) {
+        if (isMuted) { player.setVolume(0); volumeFill.style.width = '0%'; } 
+        else { player.setVolume(100); volumeFill.style.width = '100%'; }
+      } else if ((currentSource === 'archive' || currentSource === 'moviebox') && html5Player) {
+        html5Player.muted = isMuted;
+        volumeFill.style.width = isMuted ? '0%' : '100%';
+      }
+      muteBtn.innerHTML = isMuted ? '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>' : '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>'; 
+    });
+    
+    volumeSlider.addEventListener('click', (e) => { 
+      if (!playerReady) return; 
+      const rect = volumeSlider.getBoundingClientRect(), percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); 
+      if (currentSource === 'youtube' && player) {
+        player.setVolume(Math.round(percent * 100));
+      } else if ((currentSource === 'archive' || currentSource === 'moviebox') && html5Player) {
+        html5Player.volume = percent;
+      }
+      volumeFill.style.width = (percent * 100) + '%'; 
+      isMuted = percent === 0; 
+    });
+    
+    document.getElementById('fullscreenBtn').addEventListener('click', () => { 
+      const container = document.querySelector('.player-container'); 
+      document.fullscreenElement ? document.exitFullscreen() : container.requestFullscreen(); 
+    });
+    
+    function startIdleTimer() { 
+      clearTimeout(idleTimer); 
+      playerOverlay.classList.remove('idle'); 
+      idleTimer = setTimeout(() => { 
+        const isPlaying = currentSource === 'youtube' ? (player && player.getPlayerState() === YT.PlayerState.PLAYING) : (html5Player && !html5Player.paused);
+        if (isPlaying) playerOverlay.classList.add('idle'); 
+      }, 3000); 
+    }
+    
+    playerOverlay.addEventListener('mousemove', startIdleTimer); 
+    playerOverlay.addEventListener('click', () => { if (playerOverlay.classList.contains('idle')) startIdleTimer(); });
+    
+    let lastTap = 0; 
+    playerOverlay.addEventListener('touchend', (e) => { 
+      const currentTime = new Date().getTime(), tapLength = currentTime - lastTap; 
+      if (tapLength < 300 && tapLength > 0) { 
+        const rect = playerOverlay.getBoundingClientRect(), x = e.changedTouches[0].clientX - rect.left; 
+        if (x < rect.width / 3) seekVideo(-10); 
+        else if (x > rect.width * 2/3) seekVideo(10); 
+        e.preventDefault(); 
+      } 
+      lastTap = currentTime; 
+    });
+    
+    document.addEventListener('keydown', (e) => { 
+      if (!playerReady) return; 
+      switch(e.code) { 
+        case 'Space': e.preventDefault(); togglePlay(); break; 
+        case 'ArrowLeft': seekVideo(-5); break; 
+        case 'ArrowRight': seekVideo(5); break; 
+        case 'KeyF': document.querySelector('.player-container').requestFullscreen(); break; 
+        case 'KeyM': muteBtn.click(); break; 
+      } 
+    });
+
+    // ── Init ─────────────────────────────────
+    (async function init() { 
+      const savedTheme = localStorage.getItem('chillflix-theme'); 
+      applyTheme(savedTheme ? savedTheme === 'dark' : true); 
+      updateProfileUI(); 
+      await loadMovieData(); 
+    })();
   </script>
 </body>
 </html>

@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "backend/app.py": {
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/backend/(.*)",
+      "dest": "/backend/app.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/backend/app.py"
+    }
+  ]
+}
